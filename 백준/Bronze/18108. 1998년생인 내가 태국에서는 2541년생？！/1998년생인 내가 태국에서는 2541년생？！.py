@@ -1,2 +1,1 @@
-import sys
-sys.stdout.write(str(int(sys.stdin.readline().strip()) - 543))
+print(int(input())-int(543))
