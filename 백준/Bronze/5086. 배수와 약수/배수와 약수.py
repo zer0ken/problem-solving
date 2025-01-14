@@ -1,6 +1,5 @@
-import sys
 while True:
-    a, b = sys.stdin.readline().rstrip().split()
+    a, b = input().split()
     if a == b == '0':
         break
     a = int(a)
