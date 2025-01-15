@@ -1,2 +1,4 @@
-_, N, _ = input(), set(input().split()), input()
-print('\n'.join(['1' if m in N else '0' for m in input().split()]))
+import sys
+_, n, _ = input(), set(input().split()), input()
+for m in input().split():
+    sys.stdout.write('1\n' if m in n else '0\n')
