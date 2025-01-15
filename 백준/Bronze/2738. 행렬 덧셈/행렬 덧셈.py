@@ -1,8 +1,9 @@
-n, m = map(int, input().split())
+import sys
 
-matrix = [[int(x) for x in input().split()] for _ in range(n)]
+n, m = map(int, input().split())
+matrix = [[int(x) for x in sys.stdin.readline().split()] for _ in range(n)]
 for row in range(n):
-    for i, v in enumerate(input().split()):
-        print(matrix[row][i] + int(v), end=' ')
-    print()
+    for i, v in enumerate(sys.stdin.readline().split()):
+        sys.stdout.write(str(matrix[row][i] + int(v)) + ' ')
+    sys.stdout.write('\n')
         
