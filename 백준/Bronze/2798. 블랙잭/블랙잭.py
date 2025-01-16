@@ -3,9 +3,9 @@ cards = list(sorted(filter(lambda x: x < m - 2, map(int, input().split())), reve
 
 m_ = 0
 
-for i0 in range(n):
+for i0 in range(n - 2):
     v0 = cards[i0]
-    for i1 in range(n):
+    for i1 in range(n - 1):
         if i0 == i1:
             continue
         
@@ -22,5 +22,6 @@ for i0 in range(n):
             
             if m >= sum_of_three > m_:
                 m_ = sum_of_three
+                break
 
 print(m_)
