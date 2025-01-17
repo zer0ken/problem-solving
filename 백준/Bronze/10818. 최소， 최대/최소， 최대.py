@@ -1,4 +1,3 @@
-import sys
-n = int(sys.stdin.readline().rstrip())
-arr = list(map(int, sys.stdin.readline().rstrip().split()))
-sys.stdout.write(str(min(arr)) + ' ' + str(max(arr)))
+input()
+arr = list(map(int, input().split()))
+print(min(arr), max(arr))
