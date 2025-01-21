@@ -5,6 +5,7 @@ readline = sys.stdin.readline
 n, k = map(int, readline().split())
 
 visited = [False] * 100001
+# ^ 이걸 bool형 리스트로 만들어야 메모리 초과가 안납니다.
 queue = deque([(n, 0)])
 while queue:
     here, dist = queue.popleft()
