@@ -16,15 +16,18 @@ primes = set(primes[2:])
 if 0 in primes:
     primes.remove(0)
 
+# 0: min_, -1: max_
 is_nn_square = [True] * (max_ - min_ + 1)
+count = max_ - min_ + 1
 
-for prime in primes:
-    square = prime * prime
-    k = min_ // square
-    if min_ % square != 0:
-        k += 1
+for sqrt in primes:
+    temp_sq = sqrt * sqrt
+    k = math.ceil(min_ / temp_sq)
+    sq = temp_sq * k
     
-    for k_square in range(square * k, max_ + 1, square):
-        is_nn_square[k_square - min_] = False
+    for sq in range(temp_sq * k, max_ + 1, temp_sq):
+        if is_nn_square[sq - min_]:
+            is_nn_square[sq - min_] = False
+            count -= 1
 
-sys.stdout.write(str(sum(is_nn_square)))
+sys.stdout.write(str(count))
