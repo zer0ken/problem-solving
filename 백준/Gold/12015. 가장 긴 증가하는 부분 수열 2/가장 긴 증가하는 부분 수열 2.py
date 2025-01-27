@@ -4,10 +4,7 @@ N = int(sys.stdin.readline().rstrip())
 arr = []
 
 for num in map(int, sys.stdin.readline().split()):
-    if not arr:
-        arr.append(num)
-        continue
-    if arr and arr[-1] < num:
+    if not arr or arr[-1] < num:
         arr.append(num)
         continue
     
