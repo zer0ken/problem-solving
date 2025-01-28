@@ -1,29 +1,27 @@
 import sys
 
+
+def is_prime(n):
+    d = 2
+    while d * d <= n:
+        if n % d == 0:
+            return False
+        d += 1
+    return True
+
+
+def is_palindrome(str_n):
+    for i in range(len(str_n) // 2):
+        if str_n[i] != str_n[-(i + 1)]:
+            return False
+    return True
+
+
 N = int(sys.stdin.readline().rstrip())
-sieve = [n for n in range(2, 1003002)]
-primes = []
-
-for i in range(1003002 - 2):
-    if sieve[i] == -1:
-        continue
-    n = sieve[i]
-    primes.append(n)
-    
-    for kn in range(2 * n, 1003002, n):
-        sieve[kn - 2] = -1
-
-for prime in primes:
-    if prime < N:
-        continue
-    
-    str_prime = str(prime)
-    is_palindrome = True
-    for i in range(len(str_prime) // 2):
-        if str_prime[i] != str_prime[-(i + 1)]:
-            is_palindrome = False
-            break
-    if is_palindrome:
+n = N if N > 2 else 2
+while True:
+    if is_palindrome(str_n := str(n)) and is_prime(n):
         break
+    n += 1
 
-sys.stdout.write(str_prime)
+sys.stdout.write(str_n)
