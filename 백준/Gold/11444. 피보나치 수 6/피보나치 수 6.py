@@ -1,43 +1,39 @@
 import sys
-from functools import cache
-from collections import deque
 
 N = int(sys.stdin.readline().rstrip())
 
-@cache
-def matmul_2x2(a, b):
-    return (
-        (
-            (a[0][0]*b[0][0] + a[0][1]*b[1][0]) % 1_000_000_007,
-            (a[0][0]*b[0][1] + a[0][1]*b[1][1]) % 1_000_000_007
-        ),
-        (
-            (a[1][0]*b[0][0] + a[1][1]*b[1][0]) % 1_000_000_007,
-            (a[1][0]*b[0][1] + a[1][1]*b[1][1]) % 1_000_000_007
-        )
-    )
+def matmul(a, b):
+    return [
+        [
+            (a[0][0]*b[0][0] + a[0][1]*b[1][0]) % 1000000007,
+            (a[0][0]*b[0][1] + a[0][1]*b[1][1]) % 1000000007
+        ],[
+            (a[1][0]*b[0][0] + a[1][1]*b[1][0]) % 1000000007,
+            (a[1][0]*b[0][1] + a[1][1]*b[1][1]) % 1000000007          
+        ]  
+    ]
 
-
-def matpow_2x2(mat, exp):
-    powed = mat
+def matpow(a, exp):
+    if exp <= 1:
+        return a
     if exp < 4:
-        left = exp - 1
-        while left > 0:
-            powed = matmul_2x2(powed, mat)
-            left -= 1
-        return powed
+        ret = a
+        while exp > 1:
+            ret = matmul(ret, a)
+            exp -= 1
+        return ret
     
     sqrt_exp = int(exp ** 0.5)
-    powed = matpow_2x2(matpow_2x2(mat, sqrt_exp), sqrt_exp)
+    ret = matpow(matpow(a, sqrt_exp), sqrt_exp)
     
     left_exp = exp - sqrt_exp * sqrt_exp
     if left_exp > 0:
-        powed = matmul_2x2(powed, matpow_2x2(mat, left_exp))
+        ret = matmul(ret, matpow(a, left_exp))
     
-    return powed
+    return ret
 
 if N <= 2:
     sys.stdout.write('1')
 else:
-    mat = matpow_2x2(((0, 1), (1, 1)), N - 1)
+    mat = matpow(((0, 1), (1, 1)), N - 1)
     sys.stdout.write(str(mat[1][1]))
