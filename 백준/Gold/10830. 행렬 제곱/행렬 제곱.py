@@ -13,7 +13,7 @@ def matmul(a, b):
         for j in range(N):
             for k in range(N):
                 result[i][j] += a[i][k] * b[k][j]
-            result[i][j] %= 1000000
+            result[i][j] %= 10000
     return result
 
 
