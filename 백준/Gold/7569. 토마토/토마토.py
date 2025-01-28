@@ -39,7 +39,7 @@ while queue and left > 0:
             nh >= H, nn >= N, nm >= M
         )):
             continue
-          
+
         if box[nh][nn][nm] == 0:
             box[nh][nn][nm] = timestamp + 1
             left -= 1
