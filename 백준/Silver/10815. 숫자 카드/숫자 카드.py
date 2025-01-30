@@ -1,14 +1,14 @@
 import sys
+from bisect import bisect_left
+
 input = sys.stdin.readline
 
-def boj_10815():
-    _, cards, _ = input(), set(input().split()), input()
-    result = ''
-    for card in input().split():
-        if card in cards:
-            result += '1 ' 
-        else:
-            result += '0 '
-    print(result)
+_, cards, _ = input(), sorted(map(int, input().split())), input()
+len_cards = len(cards)
 
-boj_10815()
+for card in map(int, input().split()):
+    idx = bisect_left(cards, card)
+    if idx < len_cards and cards[idx] == card:
+        sys.stdout.write('1 ')
+    else:
+        sys.stdout.write('0 ')
