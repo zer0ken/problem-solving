@@ -1,5 +1,4 @@
 import sys
-from bisect import bisect_left
 
 N = int(sys.stdin.readline().rstrip())
 
