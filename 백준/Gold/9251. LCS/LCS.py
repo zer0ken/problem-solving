@@ -1,23 +1,18 @@
 import sys
 
-readline = sys.stdin.readline
-word1 = readline().rstrip()
-word2 = readline().rstrip()
+word1 = sys.stdin.readline().rstrip()
+word2 = sys.stdin.readline().rstrip()
 
 l1 = len(word1)
 l2 = len(word2)
 
-matches = [0] * (l2 + 1)
-
-for i in range(l1):
-    c1 = word1[i]
-    for j in range(l2, 0, -1):
-        last = matches[j - 1]
-        if word2[j - 1] == c1:
-            matches[j] = max(matches[j], last + 1)
-        else:
-            matches[j] = max(matches[j], last)
+matches = [[0] * (l2 + 1) for _ in range(l1 + 1)]
+for i in range(1, l1 + 1):
+    c1 = word1[i - 1]
     for j in range(1, l2 + 1):
-        matches[j] = max(matches[j - 1], matches[j])
+        if word2[j - 1] == c1:
+            matches[i][j] = max(matches[i][j-1], matches[i-1][j-1] + 1)
+        else:
+            matches[i][j] = max(matches[i][j-1], matches[i-1][j])
 
-sys.stdout.write(str(matches[-1]))
+sys.stdout.write(str(matches[-1][-1]))
