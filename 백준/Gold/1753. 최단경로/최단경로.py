@@ -9,21 +9,17 @@ for _ in range(E):
     u, v, w = map(int, sys.stdin.readline().split())
     graph[u][v] = w if v not in graph[u] else min(w, graph[u][v])
 
-heap = []
+heap = [(0, start)]
 dist = [None] * (V + 1)
 last_d = 0
 
-heapq.heappush(heap, (0, start))
 dist[start] = 0
 while heap:
-    d, u = heapq.heappop(heap)
-    
+    d, u = heapq.heappop(heap)    
     if dist[u] is not None and d > dist[u]:
         continue
-    
     if u not in graph:
         continue
-    
     for v, nd in graph[u].items():
         if dist[v] is None or d + nd < dist[v]:
             dist[v] = d + nd
