@@ -8,7 +8,7 @@ def acc(x):
     return x * (x // 2) + x
 
 total = acc(n - 1)
-half = total // 2 if total % 2 == 0 else total // 2 + 1
+half = (total + 1) // 2
 
 l, r = 1, n - 1
 while l <= r:
