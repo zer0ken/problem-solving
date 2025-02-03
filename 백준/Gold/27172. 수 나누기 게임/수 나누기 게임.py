@@ -4,7 +4,7 @@ from bisect import bisect_left
 N = int(sys.stdin.readline())
 cards = list(map(int, sys.stdin.readline().split()))
 
-max_card = max(cards)
+max_card = 1000000
 win = [None] * (max_card + 1)
 lose = [None] * (max_card + 1)
 
