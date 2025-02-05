@@ -1,28 +1,13 @@
 import sys
 
-N, K = map(int, sys.stdin.readline().split())
-compressed = []
-count = {}
-for num in map(int, sys.stdin.readline().split()):
-    if compressed and compressed[-1][0] == num:
-        compressed[-1][1] += 1
-    else:
-        compressed.append([num, 1])
-        count[num] = 0
-        
-max_count = 0
-for i in range(len(compressed)):
-    num  = compressed[i][0]
-    count_num = 0
-    count_others = 0
-    for j in range(i, len(compressed)):
-        if compressed[j][0] != num:
-            count_others += compressed[j][1]
-            if count_others > K:
-                break
-            continue
-        count_num += compressed[j][1]
-        if max_count < count_num:
-            max_count = count_num
-
-sys.stdout.write(str(max_count))
+n = N = int(sys.stdin.readline())
+x = 1
+while n > 0:
+    n -= x
+    x += 1
+x -= 1
+n += x
+if x % 2 == 0:
+    sys.stdout.write(f'{n}/{x + 1 - n}\n')
+else:
+    sys.stdout.write(f'{x + 1 - n}/{n}\n')
