@@ -3,7 +3,7 @@ from collections import deque
 
 input = sys.stdin.readline
 N = int(input())
-board = [list(map(int, input().rstrip())) for _ in range(N)]
+board = [list(map(lambda x: x == '1', input().rstrip())) for _ in range(N)]
 visited = [[False] * N for _ in range(N)]
 deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
 
