@@ -21,13 +21,11 @@ for i in range(N):
             for drow, dcol in deltas:
                 nrow = row + drow
                 ncol = col + dcol
-                if nrow < 0 or nrow >= N or ncol < 0 or ncol >= N:
-                    continue
-                if visited[nrow][ncol] or not board[nrow][ncol]:
+                if nrow < 0 or nrow >= N or ncol < 0 or ncol >= N or visited[nrow][ncol] or not board[nrow][ncol]:
                     continue
                 visited[nrow][ncol] = True
                 queue.append((nrow, ncol))
         groups.append(count)
-
+groups.sort()
 sys.stdout.write(f'{len(groups)}\n')
-sys.stdout.write('\n'.join(map(str, sorted(groups))))
+sys.stdout.write('\n'.join(map(str, groups)))
