@@ -1,7 +1,6 @@
 def main():
     import sys
     from collections import deque
-    import heapq
     
     input = sys.stdin.readline
     N = int(input())
@@ -29,11 +28,10 @@ def main():
                         continue
                     visited[nrow][ncol] = 1
                     queue.append((nrow, ncol))
-            heapq.heappush(groups, count)
+            groups.append(count)
     
     sys.stdout.write(f'{len(groups)}\n')
-    while groups:
-        sys.stdout.write(f'{heapq.heappop(groups)}\n')
+    sys.stdout.write('\n'.join(map(str, sorted(groups))))
 
 
 if __name__ == '__main__':
