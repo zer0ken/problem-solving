@@ -21,7 +21,7 @@ def main():
             continue
         visited[here] = 1
         
-        for there, next_cost in buses.get(here, []):
+        for there, next_cost in buses[here]:
             if dist_to[there] == -1 or dist_to[there] > cost + next_cost:
                 dist_to[there] = cost + next_cost
                 heapq.heappush(heap, (dist_to[there], there))
