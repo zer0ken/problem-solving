@@ -1,45 +1,49 @@
-def gcd(a, b):
-    while b > 0:
-        a, b = b, a % b
-    return a
-
-
 def main():
     import sys
-    input = sys.stdin.readline
+    
+    readline = sys.stdin.readline
+    write = sys.stdout.write
+    
+    INF = float('inf')
+    
+    for _ in range(int(readline())):
+        N, M, W = map(int, readline().split())
+        edges = []
+        for _ in range(M):
+            s, e, t = map(int, readline().split())
+            s -= 1
+            e -= 1
+            edges.append((s, e, t))
+            edges.append((e, s, t))
+        for _ in range(W):
+            s, e, t = map(int, readline().split())
+            s -= 1
+            e -= 1
+            edges.append((s, e, -t))
 
-    for _ in range(int(input())):
-        M, N, x, y = map(int, input().split())
-        doom = M * N // gcd(M, N)
-        target_diff = y - x
-
-        m = 1
-        n = 1
-        k = 1
-        while k <= doom:
-            diff = n - m
-            
-            if diff == target_diff:
-                k += min(x, y) - 1
-                sys.stdout.write(f'{k}\n')
+        visited = [0] * N
+        for start in range(N):
+            if visited[start]:
+                continue
+            visited[start] = 1
+            dist = [INF] * N
+            dist[start] = 0
+            for loop in range(N):
+                for s, e, t in edges:
+                    if dist[s] < INF and dist[e] > dist[s] + t:
+                        visited[e] = 1
+                        dist[e] = dist[s] + t
+                        if loop == N - 1:
+                            write('YES\n')
+                            break
+                else:
+                    continue
                 break
-            
-            m_left = M - m + 1
-            n_left = N - n + 1
-            if m_left == n_left:
-                k += m_left
-                m = 1
-                n = 1
-            elif m_left < n_left:
-                k += m_left
-                m = 1
-                n += m_left
             else:
-                k += n_left
-                m += n_left
-                n = 1
+                continue
+            break
         else:
-            sys.stdout.write('-1\n')
+            write('NO\n')
 
 
 if __name__ == '__main__':
