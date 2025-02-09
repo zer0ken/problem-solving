@@ -1,55 +1,32 @@
 def main():
     import sys
-    from collections import deque
     
+    sys.setrecursionlimit(int(1e+4))
     readline = sys.stdin.readline
-    
-    N, M = map(int, readline().split())
-    board = [list(map(int, readline().split())) for _ in range(N)]
-    virus_map = [[0] * M for _ in range(N)]
-    virus = []
-    empty = []
-    for i in range(N):
-        for j in range(M):
-            if board[i][j] == 2:
-                virus.append((i, j))
-                virus_map[i][j] = 1
-            if board[i][j] == 0:
-                empty.append((i, j))
-    
-    combinations = []
-    for i in range(len(empty) - 2):
-        for j in range(i, len(empty) - 1):
-            for k in range(j, len(empty)):
-                combinations.append((empty[i], empty[j], empty[k]))
-    
-    max_safe = 0
-    for new_walls in combinations:
-        for i, j in new_walls:
-            board[i][j] = 1
-        
-        safe = len(empty) - 3
-        queue = deque(virus)
-        visited = [list(row) for row in virus_map]
-        deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-        while queue:
-            row, col = queue.popleft()
-            for drow, dcol in deltas:
-                nrow, ncol = row + drow, col + dcol
-                if nrow < 0 or nrow >= N or ncol < 0 or ncol >= M \
-                        or board[nrow][ncol] or visited[nrow][ncol]:
-                    continue
-                visited[nrow][ncol] = True
-                queue.append((nrow, ncol))
-                safe -= 1
-        
-        for i, j in new_walls:
-            board[i][j] = 0
+    write = sys.stdout.write
 
-        if max_safe < safe:
-            max_safe = safe
+    N, M = map(int, readline().split())
+    board = [list(map(int, readline().split())) for _ in range(N + 1)]
+    deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+    dp = [[-1] * M for _ in range(N)]
+    dp[-1][-1] = 1
     
-    sys.stdout.write(str(max_safe))
+    def dfs(row, col, dp):
+        if dp[row][col] != -1:
+            return dp[row][col]
+        cases = 0
+        height = board[row][col]
+        for drow, dcol in deltas:
+            nrow, ncol = row + drow, col + dcol
+            if 0 <= nrow < N and 0 <= ncol < M and board[nrow][ncol] < height:
+                if dp[nrow][ncol] != -1:
+                    cases += dp[nrow][ncol]
+                else:
+                    cases += dfs(nrow, ncol, dp)
+        dp[row][col] = cases
+        return cases
+    
+    write(f'{dfs(0, 0, dp)}')
 
 
 if __name__ == '__main__':
