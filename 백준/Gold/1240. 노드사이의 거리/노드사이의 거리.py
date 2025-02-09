@@ -18,8 +18,8 @@ def main():
         start, target = map(int, readline().split())
         
         queue = deque([(start, 0)])
-        visited = [False] * (N + 1)
-        visited[start] = True
+        visited = [0] * (N + 1)
+        visited[start] = 1
         while queue:
             here, dist = queue.popleft()
             if here == target:
@@ -27,7 +27,7 @@ def main():
                 break
             for there, delta_dist in tree[here]:
                 if not visited[there]:
-                    visited[there] = True
+                    visited[there] = 1
                     queue.append((there, dist + delta_dist))
 
 
