@@ -6,10 +6,14 @@ def main():
     
     N, K = map(int, readline().split())
     purchased = 0
-    while bin(N).count('1') > K:
-        N += 1
-        purchased += 1
-
+    while (b := bin(N)).count('1') > K:
+        for i in range(1, len(b) - 1):
+            if b[-i] == '1':
+                add = 1 << (i - 1)
+                N += add
+                purchased += add
+                break
+        
     write(str(purchased))
 
 
