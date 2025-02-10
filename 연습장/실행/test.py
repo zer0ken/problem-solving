@@ -1,40 +1,21 @@
-def main():
-    import sys
-    import re
-    from collections import deque
+import sys
+from functools import cache
 
-    readline = sys.stdin.readline
-    write = sys.stdout.write
-    
-    N, start = readline().split()
-    N = int(N)
-    id_to_word = []
-    group_by_len = {}
-    for i in range(N):
-        word = readline().rstrip()
-        l = len(word)
-        if l in group_by_len:
-            group_by_len[l].add(i)
-        else:
-            group_by_len[l] = {i}
-        id_to_word[i] = word
+sys.setrecursionlimit(1_000_000_000)
+readline = sys.stdin.readline
+write = sys.stdout.write
 
-    queue = deque([start])
-    visited = [0] * N
-    while queue:
-        word = queue.popleft()
-        l = len(word)
-        if l + 1 not in group_by_len:
-            write(word)
-            exit(0)
-        p = re.compile('^.?' + '.?'.join(word) + '.?$')
-        for next_word in group_by_len[l + 1]:
-            if visited[l + 1] and p.match(id_to_word[next_word]):
-                visited[l + 1].add(next_word)
-                queue.append(next_word)
-    
-    write(word)
+@cache
+def F(n):
+	if n == 1:
+		return 0
+	if n == 2:
+		return 1
+	return (F(n - 1) + F(n - 2)) % 1_000_000_007
 
+K = int(readline())
 
-if __name__ == '__main__':
-    main()
+for t in range(10, K, 100):
+    F(t)
+
+write(str(F(K)))
