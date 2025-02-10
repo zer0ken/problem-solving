@@ -1,31 +1,33 @@
 def main():
     import sys
-    from bisect import bisect_right
     
     readline = sys.stdin.readline
     write = sys.stdout.write
     
     N = int(readline())
-    cranes = sorted(map(int, readline().split()))
+    cranes = sorted(map(int, readline().split()), reverse=True)
     M = int(readline())
-    boxes = sorted(map(int, readline().split()))
+    boxes = sorted(map(int, readline().split()), reverse=True)
 
-    if boxes[-1] > cranes[-1]:
+    if boxes[0] > cranes[0]:
         write('-1')
         exit(0)
     
     time = 0
     while boxes:
         time += 1
-        for i in range(N - 1, -1, -1):
-            crane = cranes[i]
-            j = bisect_right(boxes, crane) - 1
-            if j == -1:
-                continue
-            boxes.pop(j)
+        for i, crane in enumerate(cranes):
+            used = 0
+            for j, box in enumerate(boxes):
+                if box <= crane:
+                    used = 1
+                    boxes.pop(j)
+                    break
             if not boxes:
                 break
-    
+            if not used:
+                cranes = cranes[:i]
+                break
     write(str(time))
 
 
