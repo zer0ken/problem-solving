@@ -2,12 +2,9 @@ def main():
     import sys
     from collections import deque
 
-    readline = sys.stdin.readline
-    write = sys.stdout.write
-    
-    N, start = readline().split()
+    N, start = sys.stdin.readline().split()
     N = int(N)
-    words = [readline().rstrip() for _ in range(N)]
+    words = [sys.stdin.readline().rstrip() for _ in range(N)]
     words.sort(key=len)
     queue = deque([words.index(start)])
     visited = [0] * N
@@ -35,7 +32,7 @@ def main():
             queue.append(j)
         if has_no_next:
             break
-    write(word)
+    sys.stdout.write(word)
 
 
 if __name__ == '__main__':
