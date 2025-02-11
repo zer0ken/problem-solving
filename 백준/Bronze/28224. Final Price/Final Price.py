@@ -1,1 +1,2 @@
-print(sum(int(input()) for _ in range(int(input()))))
+import sys
+print(sum(int(sys.stdin.readline()) for _ in range(int(sys.stdin.readline()))))
