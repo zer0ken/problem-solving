@@ -28,7 +28,7 @@ def main():
     Y_inv = {y: i for i, y in enumerate(Y)}
     
     board = [[0] * (len(Y) - 1) for _ in range(len(X) - 1)]
-    used = [[0] * (len(Y) - 1) for _ in range(len(X) - 1)]
+    used = [[False] * (len(Y) - 1) for _ in range(len(X) - 1)]
     
     for i in range(len(X) - 1):
         dx = X[i + 1] - X[i]
@@ -42,7 +42,7 @@ def main():
         for i in range(X_inv[x1], X_inv[x2]):
             for j in range(Y_inv[y1], Y_inv[y2]):
                 if not used[i][j]:
-                    used[i][j] = 1
+                    used[i][j] = True
                     area[k] += board[i][j]
     write(' '.join(map(lambda x: str(x[0] + 1), sorted(sorted(enumerate(area), key=lambda x:-x[1])[:K], key=lambda x: x[0]))))
 
