@@ -1,6 +1,5 @@
 def main():
     import sys
-    from collections import deque
     
     readline = sys.stdin.readline
     write = sys.stdout.write
