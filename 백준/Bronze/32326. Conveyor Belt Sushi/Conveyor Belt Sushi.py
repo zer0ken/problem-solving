@@ -1,2 +1,1 @@
-r, g, b = int(input()), int(input()), int(input())
-print(r*3 + g*4 + b*5)
+print(int(input())*3 + int(input())*4 + int(input())*5)
