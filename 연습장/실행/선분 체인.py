@@ -7,10 +7,7 @@ def main():
     write = sys.stdout.write
     
     N = int(readline())
-    edges = []
-    for _ in range(N):
-        s, e = map(int, readline().split())
-        edges.append((s, e))
+    edges = [tuple(map(int, readline().split()))for _ in range(N)]
     edges.sort()
     
     end = []
