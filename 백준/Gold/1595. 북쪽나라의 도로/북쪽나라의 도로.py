@@ -14,24 +14,24 @@ def main():
     def get_farthest(here, dist):
         nonlocal max_dist, farthest, visited
         
-        flag = 0
+        has_next = False
         for there, d in road[here]:
             if not visited[there]:
-                flag = 1
-                visited[there] = 1
+                has_next = True
+                visited[there] = True
                 get_farthest(there, dist + d)
-                visited[there] = 0
-        if not flag and max_dist < dist:
+                visited[there] = False
+        if not has_next and max_dist < dist:
             farthest = here
             max_dist = dist
             
     max_dist, farthest = 0, 1
-    visited = [0] * 10001
-    visited[1] = 1
+    visited = [False] * 10001
+    visited[1] = True
     get_farthest(1, 0)
     
-    visited = [0] * 10001
-    visited[farthest] = 1
+    visited = [False] * 10001
+    visited[farthest] = True
     get_farthest(farthest, 0)
     
     write(str(max_dist))
