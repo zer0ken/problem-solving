@@ -19,6 +19,11 @@ def main():
             edges1.append(i)
             max_end = end
     
+    for p1 in range(len(edges1)):
+        for p2 in range(len(edges2)):
+            get_chain(p1, p2)
+            get_chain(p1, p2, reverse=True)
+    
     
     def is_crossing(p1, p2):
         s1, e1 = edges[edges1[p1]]
@@ -36,7 +41,15 @@ def main():
         chain = 2
         while p1 < len(edges1) and p2 < len(edges2):
             if on_edges1:
+                if not is_crossing(p1, p2 + 1):
+                    break
+                p2 += 1
+            elif not is_crossing(p1 + 1, p2):
+                break
+            else:
                 p1 += 1
+            chain += 1
+            on_edges1 = not on_edges1
 
 
 if __name__ == '__main__':
