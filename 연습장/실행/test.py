@@ -20,24 +20,24 @@ def main():
             max_end = end
     
     
-    def is_crossing(edge1, edge2):
-        s1, e1 = edges[edge1]
-        s2, e2 = edges[edge2]
+    def is_crossing(p1, p2):
+        s1, e1 = edges[edges1[p1]]
+        s2, e2 = edges[edges2[p2]]
         return (s1 - s2) * (e1 - e2) < 0
 
-    p1 = 0 # pointer on edges1
-    p2 = 0 # pointer on edges2
-    chain = []
-    while p1 < len(edges1) and p2 < len(edges2):
-        edge1 = edges1[p1]
-        edge2 = edges2[p2]
-        
-        if is_crossing(edge1, edge2):
-            pass
-        elif edges1 < edges2:
-            p1 += 1
-        else:
-            p2 += 1
+    def get_chain(p1, p2, reverse=False):
+        """
+        If not reversed,
+            edges1 -> edges2 -> edges1 -> edges2 -> ...
+        Otherwise,
+            edges2 -> edges1 -> edges2 -> edges1 -> ...
+        """
+        on_edges1 = not reverse
+        chain = 2
+        while p1 < len(edges1) and p2 < len(edges2):
+            if on_edges1:
+                p1 += 1
+
 
 if __name__ == '__main__':
     main()
