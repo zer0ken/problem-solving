@@ -1,10 +1,17 @@
 def main():
     import sys
     
+    sys.setrecursionlimit(100000000000)
     readline = sys.stdin.readline
     write = sys.stdout.write
     
+    
     N = int(readline())
+    edges = [tuple(map(int, readline().split())) for i in range(N)]
+    edges.sort()
+    
+    edges1 = []
+    edges2 = []
     edges = [tuple(map(int, readline().split())) for i in range(N)]
     edges.sort()
     
