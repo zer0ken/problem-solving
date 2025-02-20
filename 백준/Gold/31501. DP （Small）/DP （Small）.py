@@ -7,28 +7,31 @@ def main():
     
     N, Q = map(int, readline().split())
     difficulties = list(map(int, readline().split()))
+    
+    lis = []
+    lis_of = [0] * N
+    for i, d in enumerate(difficulties):
+        idx = bisect_left(lis, d)
+        if idx == len(lis):
+            lis.append(d)
+        else:
+            lis[idx] = d
+        lis_of[i] = idx
+        
+    lds = []
+    lds_of = [0] * N
+    for i in range(N - 1, -1, -1):
+        d = -difficulties[i]
+        idx = bisect_left(lds, d)
+        if idx == len(lds):
+            lds.append(d)
+        else:
+            lds[idx] = d
+        lds_of[i] = idx
+        
     for _ in range(Q):
-        must_solve = int(readline())
-
-        problems = []
-        lis = []
-        for problem, difficulty in enumerate(difficulties, 1):
-            idx = bisect_left(lis, difficulty)
-            if idx == len(lis):
-                lis.append(difficulty)
-                problems.append(problem)
-            else:
-                if problem == must_solve:
-                    lis[idx] = difficulty
-                    problems[idx] = problem
-                    for _ in range(idx + 1, len(lis)):
-                        lis.pop()
-                        problems.pop()
-                elif problems[idx] != must_solve:
-                    lis[idx] = difficulty
-                    problems[idx] = problem
-
-        write(f'{len(lis)}\n')
+        must_solve = int(readline()) - 1
+        write(f'{1 + lis_of[must_solve] + lds_of[must_solve]}\n')
 
 
 if __name__ == '__main__':
