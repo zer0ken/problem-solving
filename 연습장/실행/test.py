@@ -1,3 +1,5 @@
+# https://www.acmicpc.net/problem/14728
+
 def main():
     import sys
     
