@@ -1,41 +1,22 @@
 def main():
     import sys
-    from bisect import bisect_right
     
     readline = sys.stdin.readline
     write = sys.stdout.write
     
-    N = int(readline())
-    arr = list(map(int, readline().split()))
+    N, T = map(int, readline().split())
+    contents = [tuple(map(int, readline().split())) for _ in range(N)]
+    contents.sort()
+    knapsack = [0] * (T + 1)
     
-    backtrack = {}
-    lis = []
-    lis_i = []
-    for i, v in enumerate(arr):
-        idx = bisect_right(lis, v)
-        if idx == len(lis):
-            lis.append(v)
-            lis_i.append(i)
-        else:
-            lis[idx] = v
-            lis_i[idx] = i
-        backtrack[i] = lis_i[idx - 1] if idx > 0 else None
+    for time, score in contents:
+        if time > T:
+            continue
+        for t in range(time, -1, -1):
+            if (knapsack[t] != 0 or t == 0) and t + time <= T and knapsack[t + time] < knapsack[t] + score:
+                knapsack[t + time] = knapsack[t] + score
     
-    if N - len(lis) > 3:
-        write('NO')
-        exit(0)
-    write(f'YES\n{N - len(lis)}\n')
-    
-    is_used = [False] * N
-    cur = lis_i[-1]
-    while cur is not None:
-        is_used[cur] = True
-        cur = backtrack[cur]
-    
-    for i, u in enumerate(is_used):
-        if not u:
-            arr[i] = arr[i - 1] if i > 0 else 1
-            write(f'{i + 1} {arr[i]}\n')
+    write(str(max(knapsack)))
 
 
 if __name__ == '__main__':
