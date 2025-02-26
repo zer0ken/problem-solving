@@ -3,7 +3,7 @@ def main():
     
     readline = sys.stdin.readline
     write = sys.stdout.write
-    T, F = True, False
+    T, F = 1, 0
     
     for _ in range(3):
         N = int(readline())
