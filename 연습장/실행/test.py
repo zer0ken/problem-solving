@@ -1,24 +1,19 @@
-# https://www.acmicpc.net/problem/14728
-
 def main():
     import sys
-    
     readline = sys.stdin.readline
     write = sys.stdout.write
     
-    N, T = map(int, readline().split())
-    contents = [tuple(map(int, readline().split())) for _ in range(N)]
-    contents.sort()
-    knapsack = [0] * (T + 1)
+    H, N = map(int, readline().split())
+    # sum of height -> maximum of the slowest speed
+    knapsack = [0] * (H + 1)
+    for _ in range(N):
+        height, speed = map(int, readline().split())
+        for h in range(H - 1, 0, -1):
+            if knapsack[h] != 0 and h + height <= H:
+                knapsack[h + height] = max(knapsack[h + height], min(knapsack[h], speed))
+        knapsack[height] = max(knapsack[height], speed)
     
-    for time, score in contents:
-        if time > T:
-            continue
-        for t in range(time, -1, -1):
-            if (knapsack[t] != 0 or t == 0) and t + time <= T and knapsack[t + time] < knapsack[t] + score:
-                knapsack[t + time] = knapsack[t] + score
-    
-    write(str(max(knapsack)))
+    write(str(knapsack[-1]))
 
 
 if __name__ == '__main__':
