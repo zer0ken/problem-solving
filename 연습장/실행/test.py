@@ -1,19 +1,36 @@
 def main():
     import sys
+    import heapq
+    
     readline = sys.stdin.readline
     write = sys.stdout.write
     
-    H, N = map(int, readline().split())
-    # sum of height -> maximum of the slowest speed
-    knapsack = [0] * (H + 1)
-    for _ in range(N):
-        height, speed = map(int, readline().split())
-        for h in range(H - 1, 0, -1):
-            if knapsack[h] != 0 and h + height <= H:
-                knapsack[h + height] = max(knapsack[h + height], min(knapsack[h], speed))
-        knapsack[height] = max(knapsack[height], speed)
+    N, K = map(int, readline().split())
     
-    write(str(knapsack[-1]))
+    jewels = [tuple(map(int, readline().split())) for _ in range(N)]
+    weight_limits = [int(readline()) for _ in range(K)]
+    
+    jewels.sort()
+    weight_limits.sort()
+    
+    pq = []
+    stolen = 0
+    bag = 0
+        
+    for weight, price in jewels:
+        while bag < K and weight > weight_limits[bag]:
+            bag += 1
+            if pq:
+                stolen += -heapq.heappop(pq)
+        if bag == K:
+            break
+        heapq.heappush(pq, -price)
+    else:
+        while bag < K and pq:
+            bag += 1
+            stolen += -heapq.heappop(pq)
+    
+    write(str(stolen))
 
 
 if __name__ == '__main__':
