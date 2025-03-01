@@ -1,10 +1,2 @@
-import sys
-
-a, b = map(int, sys.stdin.readline().split())
-sys.stdout.write(
-    f'{a + b}\n'
-    f'{a - b}\n'
-    f'{a * b}\n'
-    f'{a // b}\n'
-    f'{a % b}\n'
-)
+a, b = map(int, input().split())
+print(f'{a + b}\n{a - b}\n{a * b}\n{a // b}\n{a % b}')
