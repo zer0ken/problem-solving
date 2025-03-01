@@ -1,18 +1,23 @@
 class Solution:
-    def decodeString(self, string: str) -> str:
-        k = ['']
-        s = ['']
-        for c in string:
+    def decode_recursively(self, string, start):
+        decoded = ''
+        k = ''
+        i = start
+        while i < len(string):
+            c = string[i]
             if ord('0') <= ord(c) <= ord('9'):
-                k[-1] += c
+                k += c
             elif c == '[':
-                k.append('')
-                s.append('')
+                substr, end = self.decode_recursively(string, i + 1)
+                decoded += substr * int(k)
+                k = ''
+                i = end
             elif c == ']':
-                k.pop()
-                t = s.pop() * int(k.pop())
-                s[-1] += t
-                k.append('')
+                break
             else:
-                s[-1] += c
-        return s[-1]
+                decoded += c
+            i += 1
+        return decoded, i
+    
+    def decodeString(self, string: str) -> str:
+        return self.decode_recursively(string, 0)[0]
