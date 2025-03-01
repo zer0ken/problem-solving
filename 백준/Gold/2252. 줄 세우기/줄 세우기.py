@@ -1,5 +1,7 @@
 def main():
     import sys
+    from collections import deque
+    
     readline = sys.stdin.readline
     write = sys.stdout.write
     
@@ -12,17 +14,18 @@ def main():
         incoming[b] += 1
     
     lined_up = []
-    newly_lined_up = []
-    while len(lined_up) < N:
-        for i in range(1, N + 1):
-            if incoming[i] == 0:
-                newly_lined_up.append(i)
-                lined_up.append(i)
-                incoming[i] = -1
-        while newly_lined_up:
-            cur = newly_lined_up.pop()
-            for next_ in graph[cur]:
-                incoming[next_] -= 1
+    queue = deque()
+    for i in range(1, N + 1):
+        if incoming[i] == 0:
+            queue.append(i)
+            incoming[i] = -1
+    while queue:
+        cur = queue.popleft()
+        lined_up.append(cur)
+        for next_ in graph[cur]:
+            incoming[next_] -= 1
+            if incoming[next_] == 0:
+                queue.append(next_)
 
     write(' '.join(map(str, lined_up)))
 
