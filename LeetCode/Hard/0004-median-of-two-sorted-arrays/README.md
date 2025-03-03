@@ -30,3 +30,6 @@
 	<li><code>1 &lt;= m + n &lt;= 2000</code></li>
 	<li><code>-10<sup>6</sup> &lt;= nums1[i], nums2[i] &lt;= 10<sup>6</sup></code></li>
 </ul>
+
+### 메모
+이 문제는 투포인터 병합 -> 퀵 정렬 -> statistics.median 함수 순으로 코드를 최적화했다.
