@@ -1,36 +1,49 @@
 def main():
     import sys
-    import heapq
+    from functools import cache
     
+    sys.setrecursionlimit(100000)
     readline = sys.stdin.readline
     write = sys.stdout.write
     
-    N, K = map(int, readline().split())
+    WALL = 1
     
-    jewels = [tuple(map(int, readline().split())) for _ in range(N)]
-    weight_limits = [int(readline()) for _ in range(K)]
+    HORIZONTAL = 0
+    VERTICAL = 1
+    DIAGONAL = 2
     
-    jewels.sort()
-    weight_limits.sort()
+    N = int(readline())
+    board = [list(map(int, readline().split())) for _ in range(N)]
     
-    pq = []
-    stolen = 0
-    bag = 0
+    deltas = [
+        [(0, 1, HORIZONTAL), (1, 1, DIAGONAL)],
+        [(1, 0, VERTICAL), (1, 1, DIAGONAL)],
+        [(0, 1, HORIZONTAL), (1, 0, VERTICAL), (1, 1, DIAGONAL)]
+    ]
+    
+    @cache
+    def dfs(row, col, shape):
+        if row == col == N - 1:
+            return 1
         
-    for weight, price in jewels:
-        while bag < K and weight > weight_limits[bag]:
-            bag += 1
-            if pq:
-                stolen += -heapq.heappop(pq)
-        if bag == K:
-            break
-        heapq.heappush(pq, -price)
-    else:
-        while bag < K and pq:
-            bag += 1
-            stolen += -heapq.heappop(pq)
+        cases = 0
+        for drow, dcol, next_shape in deltas[shape]:
+            nrow, ncol = row + drow, col + dcol
+            if nrow < 0 or nrow >= N or ncol < 0 or ncol >= N:
+                continue
+            is_wall = 1
+            
+            if next_shape == DIAGONAL:
+                is_wall = board[nrow][ncol] + board[nrow-1][ncol] + board[nrow][ncol-1]
+            else:
+                is_wall = board[nrow][ncol]
+            
+            if not is_wall:
+                cases += dfs(nrow, ncol, next_shape)
+        
+        return cases
     
-    write(str(stolen))
+    write(str(dfs(0, 1, HORIZONTAL)))
 
 
 if __name__ == '__main__':
