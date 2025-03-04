@@ -6,18 +6,18 @@ def main():
     
     R, C = map(int, readline().split())
     
-    board = [readline().rstrip() for _ in range(R)]
+    board = [[ord(c) - ord('A') for c in readline().rstrip()] for _ in range(R)]
     deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    visited = [0] * 26
+    visited = 0
     
     def dfs(r, c):
         nonlocal board, deltas, visited, R, C
         
-        cur = ord(board[r][c]) - ord('A')
-        if visited[cur] or all(visited):
+        cur = 1 << board[r][c]
+        if visited & cur:
             return 0
         
-        visited[cur] = 1
+        visited ^= cur
 
         ret = 0
         for dr, dc in deltas:
@@ -25,7 +25,7 @@ def main():
             if 0 <= nr < R and 0 <= nc < C:
                 ret = max(ret, dfs(nr, nc))
 
-        visited[cur] = 0
+        visited ^= cur
         return 1 + ret
 
     write(str(dfs(0, 0)))
