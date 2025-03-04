@@ -14,7 +14,10 @@ def main():
     queue = set([(0, 0, board[0][0])])
     while queue:
         row, col, path = queue.pop()
-        max_path = max(max_path, len(path))
+        
+        if max_path < len(path):
+            max_path = len(path)
+        
         if max_path == 26:
             break
         
