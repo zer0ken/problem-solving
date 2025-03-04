@@ -6,29 +6,24 @@ def main():
     
     R, C = map(int, readline().split())
     
-    board = [[ord(c) - ord('A') for c in readline().rstrip()] for _ in range(R)]
+    board = [readline().rstrip() for _ in range(R)]
     deltas = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    visited = 0
     
-    def dfs(r, c):
-        nonlocal board, deltas, visited, R, C
+    max_path = 1
+    
+    queue = set([(0, 0, board[0][0])])
+    while queue:
+        row, col, path = queue.pop()
+        max_path = max(max_path, len(path))
+        if max_path == 26:
+            break
         
-        cur = 1 << board[r][c]
-        if visited & cur:
-            return 0
-        
-        visited ^= cur
-
-        ret = 0
-        for dr, dc in deltas:
-            nr, nc = r + dr, c + dc
-            if 0 <= nr < R and 0 <= nc < C:
-                ret = max(ret, dfs(nr, nc))
-
-        visited ^= cur
-        return 1 + ret
-
-    write(str(dfs(0, 0)))
+        for drow, dcol in deltas:
+            nrow, ncol = row + drow, col + dcol
+            if 0 <= nrow < R and 0 <= ncol < C and board[nrow][ncol] not in path:
+                queue.add((nrow, ncol, path + board[nrow][ncol]))
+    
+    write(str(max_path))
 
 
 if __name__ == '__main__':
