@@ -21,15 +21,13 @@ class Solution:
                     break
             elif l1.next is None:
                 if c:
-                    l1.next = ListNode(val=c)
-                    c = 0
+                    l1.next = ListNode(val=0)
                 else:
                     l1.next = l2.next
                     break
             elif l2.next is None:
                 if c:
-                    l2.next = ListNode(val=c)
-                    c = 0
+                    l2.next = ListNode(val=0)
                 else:
                     break
             l1 = l1.next
