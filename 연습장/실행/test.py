@@ -1,72 +1,48 @@
-def solution(n, build_frame):
-    PILLAR = 0
-    CEIL = 1
+def main():
+    import sys
+    from functools import cache
     
-    board = [[[False, False] for _ in range(n + 1)] for _ in range(n + 1)]
+    sys.setrecursionlimit(100000)
+    readline = sys.stdin.readline
+    write = sys.stdout.write
     
-    def is_pillar_safe(x, y):
-        if y == 0:
-            return True
-        if board[x][y-1][PILLAR]:
-            return True
-        if board[x][y][CEIL]:
-            return True
-        if x != 0 and board[x-1][y][CEIL]:
-            return True
-        return False
+    WALL = 1
+    
+    HORIZONTAL = 0
+    VERTICAL = 1
+    DIAGONAL = 2
+    
+    N = int(readline())
+    board = [list(map(int, readline().split())) for _ in range(N)]
+    
+    deltas = [
+        [(0, 1, HORIZONTAL), (1, 1, DIAGONAL)],
+        [(1, 0, VERTICAL), (1, 1, DIAGONAL)],
+        [(0, 1, HORIZONTAL), (1, 0, VERTICAL), (1, 1, DIAGONAL)]
+    ]
+    
+    @cache
+    def dfs(row, col, shape):
+        if row == col == N - 1:
+            return 1
         
-    def is_ceil_safe(x, y):
-        if board[x][y-1][PILLAR]:
-            return True
-        if board[x+1][y-1][PILLAR]:
-            return True
-        if x != 0 and board[x-1][y][CEIL] and board[x+1][y][CEIL]:
-            return True
-        return False
-    
-    for x, y, is_ceil, is_build in build_frame:
-        if is_ceil:
-            if is_build:
-                if is_ceil_safe(x, y):
-                    board[x][y][CEIL] = True
-            else:
-                board[x][y][CEIL] = False
-                if (
-                    (board[x][y][PILLAR] and not is_pillar_safe(x, y))
-                    or (board[x+1][y][PILLAR] and not is_pillar_safe(x + 1, y))
-                    or (board[x+1][y][CEIL] and not is_ceil_safe(x + 1, y))
-                    or (x != 0 and board[x-1][y][CEIL] and not is_ceil_safe(x -1, y))
-                ):
-                    board[x][y][CEIL] = True
-        elif is_build:
-            if is_pillar_safe(x, y):
-                board[x][y][PILLAR] = True
-        else:
-            board[x][y][PILLAR] = False
-            if (
-                (board[x][y+1][PILLAR] and not is_pillar_safe(x, y + 1))
-                or (board[x][y+1][CEIL] and not is_ceil_safe(x, y + 1))
-                or (x != 0 and board[x-1][y+1] and not is_ceil_safe(x - 1, y + 1))
-            ):
-                board[x][y][PILLAR] = True
-        
-        print('===')
-        for y in range(n, -1, -1):
-            for x in range(n + 1):
-                print('|' if board[x][y][PILLAR] else '.', end='')
-                print('_' if board[x][y][CEIL] else ' ', end='')
-            print()
+        cases = 0
+        for drow, dcol, next_shape in deltas[shape]:
+            nrow, ncol = row + drow, col + dcol
+            if nrow < 0 or nrow >= N or ncol < 0 or ncol >= N:
+                continue
+            is_wall = 1
             
-        print()
+            if next_shape == DIAGONAL:
+                is_wall = board[nrow][ncol] + board[nrow-1][ncol] + board[nrow][ncol-1]
+            else:
+                is_wall = board[nrow][ncol]
+            
+            if not is_wall:
+                cases += dfs(nrow, ncol, next_shape)
         
-    structures = []
-    for x in range(n + 1):
-        for y in range(n + 1):
-            if board[x][y][PILLAR]:
-                structures.append([x, y, PILLAR])
-            if board[x][y][CEIL]:
-                structures.append([x, y, CEIL])
-        
-    return structures
+        return cases
+    
+    write(str(dfs(0, 1, HORIZONTAL)))
 
 solution(5, [[1,0,0,1],[1,1,1,1],[2,1,0,1],[2,2,1,1],[5,0,0,1],[5,1,0,1],[3,2,1,1],[4,2,1,1]])
