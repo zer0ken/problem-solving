@@ -6,12 +6,16 @@
     "configurations": [
         {
             "name": "ps.js 디버거",
-            "processId": "${command:PickProcess}",
-            "request": "attach",
-            "skipFiles": [
-                "<node_internals>/**"
-            ],
-            "type": "node"
+            "type": "node",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "args": [
+                "<",
+                "테스트/input.txt",
+                ">",
+                "테스트/output.txt"
+            ]
         },
         {
             "name": "ps.py 디버거",
