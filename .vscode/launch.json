@@ -5,7 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "PS 디버거",
+            "name": "ps.js 디버거",
+            "processId": "${command:PickProcess}",
+            "request": "attach",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "ps.py 디버거",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
