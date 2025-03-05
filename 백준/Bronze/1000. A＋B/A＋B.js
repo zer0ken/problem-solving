@@ -1,3 +1,5 @@
-const lines = require('fs').readFileSync('/dev/stdin').toString().trim().split('\n');
-const [a, b] = lines[0].split(' ').map(Number);
-console.log(a + b);
+var fs = require('fs');
+var input = fs.readFileSync('/dev/stdin').toString().split(' ');
+var a = parseInt(input[0]);
+var b = parseInt(input[1]);
+console.log(a+b);
