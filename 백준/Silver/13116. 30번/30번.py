@@ -4,16 +4,17 @@ def main():
     readline = sys.stdin.readline
     write = sys.stdout.write
     
+    results = []
     for _ in range(int(readline())):
         N, M = map(int, readline().split())
-        
         while N != M:
             if N > M:
                 N //= 2
             else:
                 M //= 2
+        results.append(str(10 * N))
 
-        write(str(10 * N) + '\n')
+    write('\n'.join(results))
 
 
 if __name__ == '__main__':
