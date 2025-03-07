@@ -1,6 +1,2 @@
-const input = require("fs").readFileSync("/dev/stdin").toString().split(" ");
-
-const a = parseInt(input[0]);
-const b = parseInt(input[1]);
-
+const [a, b] = require('fs').readFileSync(0, encoding = 'utf-8').toString().split(' ').map(Number);
 console.log(a + b);
