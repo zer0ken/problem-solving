@@ -1,41 +1,31 @@
 def main():
     import sys
-    from collections import deque
+    from bisect import bisect_right
     
     readline = sys.stdin.readline
     write = sys.stdout.write
     
-    N, M = map(int, readline().split())
-    board = [list(map(int, readline().split())) for _ in range(N)]
-    cheese = sum(r.count(1) for r in board)
-    neighbors = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+    N = int(readline())
+    A = list(map(int, readline().split()))
+    M = int(readline())
+    B = list(map(int, readline().split()))
     
-    time = 0
-    while cheese:
-        time += 1
-        
-        visited = [[0] * M for _ in range(N)]
-        visited[0][0] = 1
-        queue = deque([(0, 0)])
-        exposed = set()
-        while queue:
-            r, c = queue.popleft()
-            for dr, dc in neighbors:
-                nr, nc = r + dr, c + dc
-                if 0 <= nr < N and 0 <= nc < M and not visited[nr][nc]:
-                    if board[nr][nc] == 0:
-                        visited[nr][nc] = 1
-                        queue.append((nr, nc))
-                    elif (nr, nc) not in exposed:
-                        exposed.add((nr, nc))
-                    else:
-                        visited[nr][nc] = 1
-                        exposed.remove((nr, nc))
-                        board[nr][nc] = 0
-                        cheese -= 1
+    dlcs = []
+    
+    for i, x in sorted(enumerate(A), key=lambda x: (-x[1], x[0])):
+        if dlcs and i < dlcs[-1][0]:
+            continue
+        j_start = dlcs[-1][1] + 1 if dlcs else 0
+        if x in B[j_start:]:
+            j = B.index(x, j_start)
+            if dlcs and j <= dlcs[-1][1]:
+                continue
+            dlcs.append((i, j, x))
 
-    write(str(time))
-
+    write(str(len(dlcs)))
+    if dlcs:
+        write(f'\n{" ".join(str(x) for _, _, x in dlcs)}')
+    
 
 if __name__ == '__main__':
     main()
