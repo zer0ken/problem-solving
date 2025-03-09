@@ -5,4 +5,4 @@ write = sys.stdout.write
 
 for _ in range(int(input())):
     h, _, n = map(int, readline().split())
-    write(f'{((n-1)%h + 1)*100 + (n-1)//h + 1}\n')
+    write(str(((n-1)%h + 1)*100 + (n-1)//h + 1) + '\n')
