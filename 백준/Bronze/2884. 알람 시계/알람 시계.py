@@ -1,6 +1,4 @@
-h, m = input().split()
-h = int(h)
-m = int(m)
+h, m = map(int, input().split())
 
 m = m - 45
 if m < 0:
