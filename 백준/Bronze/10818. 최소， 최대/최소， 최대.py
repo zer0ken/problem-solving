@@ -1,3 +1,3 @@
 import sys
 arr = list(map(int, sys.stdin.read().split()[1:]))
-print(min(arr), max(arr))
+sys.stdout.write(f'{min(arr)} {max(arr)}')
