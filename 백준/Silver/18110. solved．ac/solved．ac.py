@@ -1,12 +1,10 @@
 import sys
 
-readline = sys.stdin.readline
-
-n = int(readline().rstrip())
+n, *arr = map(int, sys.stdin.read().split())
 if n == 0:
     sys.stdout.write('0')
 else:
-    arr = sorted(int(readline().rstrip()) for _ in range(n))
+    arr.sort()
     cut = int(n * 0.15 + 0.5)
     if cut > 0:
         arr = arr[cut:-cut]
