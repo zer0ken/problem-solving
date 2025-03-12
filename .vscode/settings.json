@@ -6,10 +6,7 @@
         "**/.DS_Store": true,
         "**/Thumbs.db": true,
         "**/__pycache__": true,
-        "**/CVS": true,
-        ".venv": true
+        "**/CVS": true
     },
-    "hide-files.files": [
-        ".venv"
-    ]
+    "hide-files.files": []
 }

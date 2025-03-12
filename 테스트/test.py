@@ -1,39 +1,28 @@
 def main():
     import sys
-    import heapq
-
-    readline = sys.stdin.readline
     write = sys.stdout.write
-    
-    INF = float('inf')
-    
-    N = int(readline())
-    M = int(readline())
-    graph = [[] for _ in range(N + 1)]
-    for _ in range(M):
-        s, e, d = map(int, readline().split())
-        graph[s].append((e, d))
-    departure, arrival = map(int, readline().split())
-    
-    dist = [INF] * (N + 1)
-    dist[departure] = 0
-    
-    path = [[] for _ in range(N + 1)]
-    
-    pq = [(0, departure)]
-    while pq:
-        d_prev, cur = heapq.heappop(pq)
-        if d_prev > dist[cur]:
-            continue
-        for next, d_next in graph[cur]:
-            if dist[next] > d_prev + d_next:
-                dist[next] = d_prev + d_next
-                path[next] = path[cur] + [cur]
-                heapq.heappush(pq, (dist[next], next))
 
-    path[arrival].append(arrival)
-    
-    write(f'{dist[arrival]}\n{len(path[arrival])}\n{" ".join(map(str, path[arrival]))}')
+    lines = sys.stdin.read().rstrip().splitlines()[:-1]
+    for line in lines:
+        A, B = map(int, line.split())
+        a, b = A, B
+        
+        a_arr = [a]
+        while a != 1:
+            a = 3*a + 1 if a % 2 else a//2
+            a_arr.append(a)
+        
+        b_arr = [b]
+        while b != 1:
+            b = 3*b + 1 if b % 2 else b//2
+            b_arr.append(b)
+        
+        for i in range(-1, -min(len(a_arr), len(b_arr)) - 1, -1):
+            if a_arr[i] != b_arr[i]:
+                i += 1
+                break
+            
+        write(f'{A} needs {len(a_arr) + i} steps, {B} needs {len(b_arr) + i} steps, they meet at {a_arr[i]}\n')
 
 
 if __name__ == '__main__':
