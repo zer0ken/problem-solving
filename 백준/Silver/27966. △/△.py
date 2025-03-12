@@ -1,7 +1,8 @@
 import sys
 
-N = int(input())
-sum_dist = N**2 -2*N + 1
-print(sum_dist)
+N = int(sys.stdin.readline())
+sum_dist = N**2 - 2*N + 1
+results = []
 for i in range(2, N + 1):
-    sys.stdout.write(f'{1} {i}\n')
+    results.append(f'1 {i}')
+sys.stdout.write(str(sum_dist) + '\n' + '\n'.join(results))
