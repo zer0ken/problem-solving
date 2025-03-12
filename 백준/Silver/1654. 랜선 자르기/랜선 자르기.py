@@ -1,20 +1,14 @@
 import sys
-input = sys.stdin.readline
-def BOJ_1654():
-    K, N = map(int,input().split())
 
-    cable = [int(input()) for _ in range(K)]
-
-    low, high = 1, sum(cable)//N*2
-    
-    ans = 0
-    while low <= high:
-        mid = (low + high) // 2
-        n= sum([c//mid for c in cable])
-        if n >= N:
-            ans = max(0, mid)
-            low = mid + 1
-        elif n < N:
-            high = mid - 1
-    print(ans)
-BOJ_1654()
+k, n = map(int, sys.stdin.readline().split())
+cables = [int(sys.stdin.readline()) for _ in range(k)]
+l = answer = 1
+r = sum(cables) // n
+while l <= r:
+    mid = (l + r) // 2
+    if sum([c // mid for c in cables]) >= n:
+        answer = mid
+        l = mid + 1
+    else:
+        r = mid - 1
+sys.stdout.write(str(answer))
