@@ -1,20 +1,26 @@
 def main():
     import sys
 
-    sys.setrecursionlimit(9*9*9)
     write = sys.stdout.write
-
     board = [list(map(int, line))
              for line in sys.stdin.read().rstrip().splitlines()]
-
     empties = [(row, col) for row in range(9)
                for col in range(9) if board[row][col] == 0]
-
-    count = 0
+    
+    blocks = [
+        [
+            [
+                (r, c) 
+                for r in range(3*row_block, 3*row_block + 3) 
+                for c in range(3*col_block, 3*col_block + 3)
+            ]
+            for col_block in range(3)
+        ]
+        for row_block in range(3)
+    ]
 
     def solve(cur):
-        nonlocal board, count
-        count += 1
+        nonlocal board
         
         if len(empties) == cur:
             for row in range(9):
@@ -31,9 +37,7 @@ def main():
 
         row_block = row // 3
         col_block = col // 3
-        possibles -= {board[r][c]
-                      for r in range(3*row_block, 3*row_block + 3)
-                      for c in range(3*col_block, 3*col_block + 3)}
+        possibles -= {board[r][c] for r, c in blocks[row_block][col_block]}
 
         if not possibles:
             return
