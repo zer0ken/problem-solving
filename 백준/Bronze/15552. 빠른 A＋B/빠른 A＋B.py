@@ -1,4 +1,3 @@
 import sys
-for _ in range(int(input())):
-    a, b = sys.stdin.readline().split()
-    sys.stdout.write(str(int(a) + int(b)) + '\n')
+_, *lines = sys.stdin.read().rstrip().split('\n')
+sys.stdout.write('\n'.join(str(sum(map(int, line.split()))) for line in lines))
