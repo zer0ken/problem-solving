@@ -23,7 +23,7 @@ def main():
         
     size_subtree(R)
     
-    sys.stdout.write('\n'.join(str(dp[int(query)]) for query in lines))
+    sys.stdout.write('\n'.join(map(lambda query: str(dp[int(query)]), lines)))
 
 
 if __name__ == '__main__':
