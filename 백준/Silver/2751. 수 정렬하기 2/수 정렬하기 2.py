@@ -1,6 +1,4 @@
 import sys
-readline = sys.stdin.readline
-n = int(readline().rstrip())
-
-arr = [int(readline().rstrip()) for _ in range(n)]
-sys.stdout.write('\n'.join(map(str, sorted(arr))))
+N, *arr = map(int, sys.stdin.read().rstrip().split())
+arr.sort()
+sys.stdout.write('\n'.join(map(str, arr)))
