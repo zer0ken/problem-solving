@@ -1,24 +1,36 @@
-def main():
-    import sys
-
-    write = sys.stdout.write
-    lines = iter(sys.stdin.read().rstrip().splitlines())
+def solution(n, results):
+    graph = [[] for _ in range(n + 1)]
     
-    for _ in range(int(next(lines))):
-        int(next(lines))
-        kinds = list(map(int, next(lines).split()))
-        M = int(next(lines))
-        
-        knapsack = [0] * (M + 1)
-        knapsack[0] = 1
+    for a, b in results:
+        graph[a].append(b)
     
-        for kind in kinds:
-            for i in range(M + 1):
-                if knapsack[i] != 0 and i + kind <= M:
-                    knapsack[i + kind] += knapsack[i]
+    dp = [None] * (n + 1)
+    
+    def get_subnodes(x):
+        if dp[x] is not None:
+            return dp[x]
         
-        write(f'{knapsack[M]}\n')
+        subnodes = set()
+        for child in graph[x]:
+            subnodes.add(child)
+            subnodes.update(get_subnodes(child))
+        
+        subnodes = frozenset(subnodes)
+        dp[x] = subnodes
+        return subnodes
+        
+    compared_count = [0] * (n + 1)
+    
+    for i in range(1, n + 1):
+        subnodes = get_subnodes(i)
+        compared_count[i] += len(subnodes)
 
+        for subnode in get_subnodes(i):
+            compared_count[subnode] += 1
+    
+    ranked = len(list(filter(lambda c: c == n - 1, compared_count)))
+    
+    print('\n'.join(map(str, dp)))
+    return ranked
 
-if __name__ == '__main__':
-    main()
+print(solution(5, [[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]))
