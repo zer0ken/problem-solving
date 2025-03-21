@@ -4,9 +4,9 @@ def main():
 
     N, *arr = map(int, sys.stdin.read().split())
     
-    backtrack = {}
     lis = []
     indices = []
+    backtrack = [None] * N
     for i, v in enumerate(arr):
         idx = bisect_left(lis, v)
         if idx == len(lis):
@@ -15,7 +15,9 @@ def main():
         else:
             lis[idx] = v
             indices[idx] = i
-        backtrack[i] = indices[idx-1] if idx != 0 else None
+        
+        if idx != 0:
+            backtrack[i] = indices[idx-1]
     
     lis = []
     cur = indices[-1]
