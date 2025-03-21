@@ -8,44 +8,43 @@ M, N, O, P, Q, R, S, T, U, V, W = map(int, next(input_iter).split())
 
 left = 0
 queue = deque()
-box = [
-    [
-        [
-            [
-                [
-                    [
-                        [
-                            [
-                                [
-                                    [
-                                    ] for o in range(O)
-                                ] for p in range(P)
-                            ] for q in range(Q)
-                        ] for r in range(R)
-                    ] for s in range(S)
-                ] for t in range(T)
-            ] for u in range(U)
-        ] for v in range(V)
-    ] for w in range(W)
-]
 
+box = []
 for w in range(W):
+    wt = []
     for v in range(V):
+        vt = []
         for u in range(U):
+            ut = []
             for t in range(T):
+                tt = []
                 for s in range(S):
+                    st = []
                     for r in range(R):
+                        rt = []
                         for q in range(Q):
+                            qt = []
                             for p in range(P):
+                                pt = []
                                 for o in range(O):
+                                    ot = []
                                     for n in range(N):
                                         tomatoes = list(map(int, next(input_iter).split()))
-                                        box[w][v][u][t][s][r][q][p][o].append(tomatoes)
+                                        ot.append(tomatoes)
                                         for m in range(M):
                                             if tomatoes[m] == 0:
                                                 left += 1
                                             elif tomatoes[m] == 1:
                                                 queue.append((m, n, o, p, q, r, s, t, u, v, w))
+                                    pt.append(ot)
+                                qt.append(pt)
+                            rt.append(qt)
+                        st.append(rt)
+                    tt.append(st)
+                ut.append(tt)
+            vt.append(ut)
+        wt.append(vt)
+    box.append(wt)
 
 deltas = [
 #   [m, n, o, p, q, r, s, t, u, v, w]
