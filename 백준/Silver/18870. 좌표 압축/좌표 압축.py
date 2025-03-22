@@ -4,11 +4,9 @@ def main():
     N, *arr = map(int, sys.stdin.read().split())
     
     compressed = {}
-    last_v = None
     for i, v in enumerate(sorted(set(arr))):
-        if i == 0 or last_v != v:
+        if v not in compressed:
             compressed[v] = i
-        last_v = v
     
     sys.stdout.write(' '.join(str(compressed[v]) for v in arr))
 
