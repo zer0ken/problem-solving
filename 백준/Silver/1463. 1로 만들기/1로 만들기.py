@@ -1,36 +1,28 @@
-import sys
-n = int(sys.stdin.readline().rstrip())
-
-limit = n
-
-def dfs(stack):
-    global limit
+def main():
+    import sys
     
-    last = stack[-1]
-    if last == 1:
-        limit = len(stack)
-        return 0
-    if len(stack) >= limit:
-        return n
+    N = int(sys.stdin.read())
     
-    op_count = []
-    if last >= 3 and last % 3 == 0:
-        cur = last // 3
-        if cur >= 1:
-            stack.append(cur)
-            op_count.append(dfs(stack))
-            stack.pop()
-    if last > 2 and last % 2 == 0:
-        cur = last // 2
-        if cur >= 1:
-            stack.append(cur)
-            op_count.append(dfs(stack))
-            stack.pop()
-    cur = last - 1
-    stack.append(cur)
-    op_count.append(dfs(stack))
-    stack.pop()
+    if N == 1:
+        sys.stdout.write('0')
+        exit(0)
     
-    return min(op_count) + 1
+    dp = set([N])
+    for i in range(1, N):
+        next_dp = set()
+        for v in dp:
+            if v % 3 == 0:
+                next_dp.add(v // 3)
+            if v % 2 == 0:
+                next_dp.add(v // 2)
+            next_dp.add(v - 1)
+        dp = next_dp
 
-sys.stdout.write(str(dfs([n])))
+        if 1 in dp:
+            break
+    
+    sys.stdout.write(str(i))
+
+
+if __name__ == '__main__':
+    main()
