@@ -1,36 +1,33 @@
-def solution(n, results):
-    graph = [[] for _ in range(n + 1)]
+def main():
+    import sys
     
-    for a, b in results:
-        graph[a].append(b)
+    N = int(sys.stdin.read())
     
-    dp = [None] * (n + 1)
+    if N == 1:
+        sys.stdout.write('0')
+        exit(0)
     
-    def get_subnodes(x):
-        if dp[x] is not None:
-            return dp[x]
-        
-        subnodes = set()
-        for child in graph[x]:
-            subnodes.add(child)
-            subnodes.update(get_subnodes(child))
-        
-        subnodes = frozenset(subnodes)
-        dp[x] = subnodes
-        return subnodes
-        
-    compared_count = [0] * (n + 1)
+    dp = set([N])
+    for i in range(1, N):
+        next_dp = set()
+        for v in dp:
+            new_values = set()
+            if v % 3 == 0:
+                new_values.add(v // 3)
+            if v % 2 == 0:
+                new_values.add(v // 2)
+            new_values.add(v - 1)
+            
+            if 1 in new_values:
+                break
+            next_dp.update(new_values)
+        else:
+            dp = next_dp
+            continue
+        break
     
-    for i in range(1, n + 1):
-        subnodes = get_subnodes(i)
-        compared_count[i] += len(subnodes)
+    sys.stdout.write(str(i))
 
-        for subnode in get_subnodes(i):
-            compared_count[subnode] += 1
-    
-    ranked = len(list(filter(lambda c: c == n - 1, compared_count)))
-    
-    print('\n'.join(map(str, dp)))
-    return ranked
 
-print(solution(5, [[4, 3], [4, 2], [3, 2], [1, 2], [2, 5]]))
+if __name__ == '__main__':
+    main()
