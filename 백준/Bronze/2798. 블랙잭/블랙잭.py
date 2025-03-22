@@ -1,27 +1,25 @@
-n, m = map(int, input().split())
-cards = list(sorted(filter(lambda x: x < m - 2, map(int, input().split())), reverse=True))
-
-m_ = 0
-
-for i0 in range(n - 2):
-    v0 = cards[i0]
-    for i1 in range(n - 1):
-        if i0 == i1:
-            continue
-        
-        sum_of_two = v0 + cards[i1]
-        
-        if sum_of_two >= m:
-            continue
-            
-        for i2 in range(n):
-            if i2 == i0 or i2 == i1:
-                continue
-            
-            sum_of_three = sum_of_two + cards[i2]
-            
-            if m >= sum_of_three > m_:
-                m_ = sum_of_three
+def main():
+    import sys
+    
+    N, M, *arr = map(int, sys.stdin.read().split())
+    arr.sort()
+    
+    best_sum = -float('inf')
+    for i in range(N - 2):
+        if 3 * arr[i] > M:
+            break
+        for j in range(i + 1, N - 1):
+            if arr[i] + 2 * arr[j] > M:
                 break
+            for k in range(j + 1, N):
+                sum_of_three = arr[i] + arr[j] + arr[k]
+                if sum_of_three > M:
+                    break
+                if best_sum < sum_of_three:
+                    best_sum = sum_of_three
 
-print(m_)
+    sys.stdout.write(str(best_sum))
+
+
+if __name__ == '__main__':
+    main()
