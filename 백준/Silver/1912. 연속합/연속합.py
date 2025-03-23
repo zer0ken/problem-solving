@@ -3,9 +3,10 @@ def main():
     
     N, *arr = map(int, sys.stdin.read().split())
     
-    dp = [arr[0]]
-    for i in range(1, N):
-        dp.append(arr[i] if arr[i] > dp[i-1] + arr[i] else dp[i-1] + arr[i])
+    dp = arr[:]
+    for i in range(N):
+        if i != 0 and dp[i] < dp[i-1] + arr[i]:
+            dp[i] = dp[i-1] + arr[i]
     
     sys.stdout.write(str(max(dp)))
 
