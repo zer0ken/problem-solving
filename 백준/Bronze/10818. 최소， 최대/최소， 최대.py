@@ -1,7 +1,9 @@
-import sys
+def main():
+    import sys
 
-read = sys.stdin.read
-write = sys.stdout.write
+    N, *arr = map(int, sys.stdin.read().split())
+    sys.stdout.write(f'{min(arr)} {max(arr)}')
 
-arr = list(map(int, read().split()[1:]))
-write(f'{min(arr)} {max(arr)}')
+
+if __name__ == '__main__':
+    main()
