@@ -5,7 +5,7 @@ def main():
     
     row = [int(lines[0])]
     for i in range(1, int(N)):
-        next_row = list(map(int, lines[i].split()))
+        next_row = [*map(int, lines[i].split())]
         for j, v in enumerate(next_row):
             if j == 0:
                 next_row[j] += row[j]
