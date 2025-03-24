@@ -1,18 +1,24 @@
-def main():
-    import sys
-    from bisect import bisect_left
+import sys
 
-    N, *arr = map(int, sys.stdin.read().split())
+N = int(sys.stdin.readline().rstrip())
+arr = []
 
-    lis = []
-    for v in arr:
-        if not lis or lis[-1] < v:
-            lis.append(v)
+for num in map(int, sys.stdin.readline().split()):
+    if not arr or arr[-1] < num:
+        arr.append(num)
+        continue
+    
+    l, r = 0, len(arr) - 1
+    while l <= r:
+        mid = (l + r) // 2
+        if num == arr[mid]:
+            l = mid
+            break
+        elif num < arr[mid]:
+            r = mid - 1
         else:
-            lis[bisect_left(lis, v)] = v
+            l = mid + 1
+    arr[l] = num
+    
 
-    sys.stdout.write(str(len(lis)))
-
-
-if __name__ == '__main__':
-    main()
+sys.stdout.write(str(len(arr)))
