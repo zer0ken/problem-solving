@@ -1,12 +1,7 @@
 import sys
 
-lines = sys.stdin.read().split()[:-1]
-
+*lines, _ = sys.stdin.read().split()
+results = []
 for line in lines:
-    is_palindrome = True
-    for i in range(len(line) // 2):
-        if line[i] != line[-1 - i]:
-            is_palindrome = False
-            break
-    print('yes' if is_palindrome else 'no')
-    
+    results.append('yes' if line == line[::-1] else 'no')
+sys.stdout.write('\n'.join(results))
