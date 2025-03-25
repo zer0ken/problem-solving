@@ -1,5 +1,14 @@
-4 7
-6 13
-4 8
-3 6
-5 12
+4 3
+red
+reds
+purple
+orange
+shift
+joker
+noon
+5
+redshift
+redsshift
+redsift
+orangeshift
+whiteblue
