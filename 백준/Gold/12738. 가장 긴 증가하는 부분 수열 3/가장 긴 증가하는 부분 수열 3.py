@@ -1,12 +1,18 @@
-import sys
-from bisect import bisect_left
+def main():
+    import sys
+    from bisect import bisect_left
 
-N = int(sys.stdin.readline().rstrip())
-arr = []
+    N, *arr = map(int, sys.stdin.read().split())
 
-for num in map(int, sys.stdin.readline().split()):
-    if not arr or arr[-1] < num:
-        arr.append(num)
-        continue
-    arr[bisect_left(arr, num)] = num
-sys.stdout.write(str(len(arr)))
+    lis = []
+    for v in arr:
+        if not lis or lis[-1] < v:
+            lis.append(v)
+        else:
+            lis[bisect_left(lis, v)] = v
+
+    sys.stdout.write(str(len(lis)))
+
+
+if __name__ == '__main__':
+    main()
