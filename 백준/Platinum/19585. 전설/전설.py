@@ -24,7 +24,8 @@ def main():
     names = {next(lines) for _ in range(N)}
 
     Q, *queries = lines
-    
+    results = []
+
     for query in queries:
         cur = color_trie
         
@@ -37,9 +38,11 @@ def main():
             cur = cur.children[query[i]]
         
         if any(name in names for name in possible_names):
-            sys.stdout.write('Yes\n')
+            results.append('Yes')
         else:
-            sys.stdout.write('No\n')
+            results.append('No')
+
+    sys.stdout.write('\n'.join(results))
 
 
 if __name__ == '__main__':
