@@ -4,22 +4,20 @@ def main():
     lines = iter(sys.stdin.read().rstrip().splitlines())
     
     C, N = map(int, next(lines).split())
+            
+    def create_trie_node():
+        return {'is_terminal': False}
     
-    class TrieNode:
-        def __init__(self):
-            self.children = {}
-            self.is_terminal = False
-    
-    color_trie = TrieNode()
+    color_trie = create_trie_node()
     for _ in range(C):
         color = next(lines)
         
         cur = color_trie
         for cha in color:
-            if cha not in cur.children:
-                cur.children[cha] = TrieNode()
-            cur = cur.children[cha]
-        cur.is_terminal = True
+            if cha not in cur:
+                cur[cha] = create_trie_node()
+            cur = cur[cha]
+        cur['is_terminal'] = True
 
     names = {next(lines) for _ in range(N)}
 
@@ -31,12 +29,12 @@ def main():
         
         possible_names = []
         for i in range(len(query)):
-            if cur.is_terminal:
+            if cur['is_terminal']:
                 possible_names.append(query[i:])
-            if query[i] not in cur.children:
+            if query[i] not in cur:
                 break
-            cur = cur.children[query[i]]
-        
+            cur = cur[query[i]]
+
         if any(name in names for name in possible_names):
             results.append('Yes')
         else:
