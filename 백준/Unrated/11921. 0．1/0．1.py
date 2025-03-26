@@ -10,7 +10,7 @@ def main():
     map_of_numbers.__next__()
     total += sum(map_of_numbers)
 
-    while i < 495086:
+    while i < 495994:
         temp = left
         numbers, _, left = os.read(0, 13600).decode('utf-8').rpartition('\n')
         numbers = temp + numbers
