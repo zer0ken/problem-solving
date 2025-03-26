@@ -1,12 +1,26 @@
 def main():
-    import sys, os, io
-    input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
-    input()
-    acc = 0
-    for _ in range(300000):
-        acc += int(input())
-    sys.stdout.write('300000\n' + str(acc))
+    import sys
+    import os
 
+    total = 0
+    numbers, _, left = os.read(0, 11500).decode('utf-8').rpartition('\n')
+    numbers = numbers.split('\n')
+    i = len(numbers) - 1
+    map_of_numbers = map(int, numbers)
+    map_of_numbers.__next__()
+    total += sum(map_of_numbers)
 
-if __name__ == '__main__':
-    main()
+    while i < 490000:
+        if numbers == '':
+            break
+        temp = left
+        numbers, _, left = os.read(0, 12000).decode('utf-8').rpartition('\n')
+        numbers = temp + numbers
+        numbers = numbers.split('\n')
+        i += len(numbers)
+        map_of_numbers = map(int, numbers)
+        total += sum(map_of_numbers)
+
+    sys.stdout.write(str(i) + '\n' + str(total))
+
+main()
