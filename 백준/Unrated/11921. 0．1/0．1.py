@@ -3,19 +3,19 @@ def main():
     import os
     
     total = 0
-    numbers, _, left = os.read(0, 10030).decode('utf-8').rpartition('\n')
+    numbers, _, left = os.read(0, 10100).decode('utf-8').rpartition('\n')
     numbers = numbers.split('\n')
     i = len(numbers) - 1
     map_of_numbers = map(int, numbers)
     map_of_numbers.__next__()
     total += sum(map_of_numbers)
 
-    while i < 496022:
+    while i < 496025:
         temp = left
-        numbers, _, left = os.read(0, 13600).decode('utf-8').rpartition('\n')
-        numbers = (temp + numbers).split('\n')
-        if numbers == '':
+        numbers, _, left = os.read(0, 13500).decode('utf-8').rpartition('\n')
+        if not temp and not numbers:
             break
+        numbers = (temp + numbers).split('\n')
         i += numbers.__len__()
         total += sum(map(int, numbers))
 
