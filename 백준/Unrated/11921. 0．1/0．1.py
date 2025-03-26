@@ -3,7 +3,7 @@ def main():
     import os
 
     total = 0
-    numbers, _, left = os.read(0, 11500).decode('utf-8').rpartition('\n')
+    numbers, _, left = os.read(0, 12000).decode('utf-8').rpartition('\n')
     numbers = numbers.split('\n')
     i = len(numbers) - 1
     map_of_numbers = map(int, numbers)
