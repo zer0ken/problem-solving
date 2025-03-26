@@ -1,11 +1,12 @@
 def main():
-    import sys
-
-    sys.stdin.readline()
+    import sys, os, io
+    input = io.BytesIO(os.read(0, os.fstat(0).st_size)).readline
+    input()
     acc = 0
-    for _ in range(234567):
-        acc += int(sys.stdin.readline())
-    print('234567\n', acc, sep='')
+    for _ in range(300000):
+        acc += int(input())
+    sys.stdout.write('300000\n' + str(acc))
+
 
 if __name__ == '__main__':
     main()
