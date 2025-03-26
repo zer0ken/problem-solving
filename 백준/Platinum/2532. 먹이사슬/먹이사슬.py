@@ -2,11 +2,10 @@ def main():
     import sys
     from bisect import bisect_right
     
-    readline = sys.stdin.readline
-    write = sys.stdout.write
+    lines = iter(sys.stdin.read().rstrip().splitlines())
     
-    N = int(readline())
-    animals = list({tuple(map(int, readline().split()))[1:] for _ in range(N)})
+    N = next(lines)
+    animals = list({tuple(map(int, line.split()))[1:] for line in lines})
     animals.sort(key=lambda a: a[1], reverse=True)
     animals.sort(key=lambda a: a[0])
     
@@ -17,7 +16,7 @@ def main():
             lds.append(-r)
         else:
             lds[idx] = -r
-    write(str(len(lds)))
+    sys.stdout.write(str(len(lds)))
 
 
 if __name__ == '__main__':
