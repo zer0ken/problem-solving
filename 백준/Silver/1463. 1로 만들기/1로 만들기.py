@@ -7,27 +7,16 @@ def main():
         sys.stdout.write('0')
         exit(0)
     
-    dp = set([N])
-    for i in range(1, N):
-        next_dp = set()
-        for v in dp:
-            new_v = set()
-            if v % 3 == 0:
-                new_v.add(v // 3)
-            if v % 2 == 0:
-                new_v.add(v // 2)
-            new_v.add(v - 1)
-            next_dp.update(new_v)
-            
-            if 1 in new_v:
-                break
-        
-        dp = next_dp
-        if 1 in dp:
-            break
-        
+    dp = {1: 0, 2: 1, 3: 1}
     
-    sys.stdout.write(str(i))
+    def solve(x):
+        if x in dp:
+            return dp[x]
+        result = 1 + min(solve(x//3) + x%3, solve(x//2) + x%2)
+        dp[x] = result
+        return result
+    
+    sys.stdout.write(str(solve(N)))
 
 
 if __name__ == '__main__':
