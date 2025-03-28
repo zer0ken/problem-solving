@@ -1,18 +1,24 @@
 import sys
 
-s, bads, k = sys.stdin.read().split()
-k = int(k)
+S, BADS, K = sys.stdin.read().split()
+K = int(K)
 ord_a = ord('a')
 
 prefix_sum = [0]
-for cha in s:
-    prefix_sum.append(prefix_sum[-1] + int(bads[ord(cha) - ord_a] == '0'))
+for cha in S:
+    prefix_sum.append(prefix_sum[-1] + int(BADS[ord(cha) - ord_a] == '0'))
 
-good_strings = set()
-for i in range(len(s)):
-    for j in range(i + 1, len(s) + 1):
-        if prefix_sum[j] - prefix_sum[i] <= k:
-            seg = (i, j)
-            good_strings.add(s[i:j])
 
-print(len(good_strings))
+trie = {}
+count = 0
+for i in range(len(S)):
+    cur = trie
+    for j in range(i + 1, len(S) + 1):
+        if prefix_sum[j] - prefix_sum[i] > K:
+            break
+        if S[j-1] not in cur:
+            cur[S[j-1]] = {}
+            count += 1
+        cur = cur[S[j-1]]
+
+print(count)
