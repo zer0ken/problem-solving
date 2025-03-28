@@ -3,25 +3,32 @@ def main():
 
     S, BADS, K = sys.stdin.read().split()
     K = int(K)
-    ord_a = ord('a')
+    BADS = {chr(97 + i): int(is_bad == '0') for i, is_bad in enumerate(BADS)}
 
-    prefix_sum = [0]
-    for cha in S:
-        prefix_sum.append(prefix_sum[-1] + int(BADS[ord(cha) - ord_a] == '0'))
-    
-    trie = {}
-    count = 0
-    for i in range(len(S)):
-        cur = trie
-        for j in range(i + 1, len(S) + 1):
-            if prefix_sum[j] - prefix_sum[i] > K:
+    suffixes = sorted([S[i:] for i in range(len(S))])
+    previous_good_str = ''
+    good_str_count = 0
+    for suffix in suffixes:
+        bad_count = 0
+        is_on_new_path = 0
+        for i in range(len(suffix)):
+            bad_count += BADS[suffix[i]]
+            if bad_count > K:
+                i -= 1
                 break
-            if S[j-1] not in cur:
-                cur[S[j-1]] = {}
-                count += 1
-            cur = cur[S[j-1]]
+            
+            if not is_on_new_path and (
+                i >= len(previous_good_str) or
+                suffix[i] != previous_good_str[i]
+            ):
+                is_on_new_path = 1
 
-    sys.stdout.write(str(count))
+            if is_on_new_path:
+                good_str_count += 1
+        
+        previous_good_str = suffix[:i+1]
+    
+    sys.stdout.write(str(good_str_count))
 
 
 main()
