@@ -1,34 +1,24 @@
-def main():
-    import sys
+from collections import deque
 
-    S, BADS, K = sys.stdin.read().split()
-    K = int(K)
-    BADS = {chr(97 + i): int(is_bad == '0') for i, is_bad in enumerate(BADS)}
+N = int(input())
 
-    suffixes = sorted([S[i:] for i in range(len(S))])
-    previous_good_str = ''
-    good_str_count = 0
-    for suffix in suffixes:
-        bad_count = 0
-        is_on_new_path = 0
-        for i in range(len(suffix)):
-            bad_count += BADS[suffix[i]]
-            if bad_count > K:
-                i -= 1
-                break
-            
-            if not is_on_new_path and (
-                i >= len(previous_good_str) or
-                suffix[i] != previous_good_str[i]
-            ):
-                is_on_new_path = 1
-
-            if is_on_new_path:
-                good_str_count += 1
-        
-        previous_good_str = suffix[:i+1]
+if N <= 9:
+    print(N + 1)
+    exit(0)
     
-    sys.stdout.write(str(good_str_count))
+count = 0
+is_palindromes = [0] * (N + 1)
+queue = deque(['', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'])
 
-
-main()
+while queue:
+    p = queue.popleft()
+    print('p!')
+    for digit in range(1, 10):
+        pp = f'{digit}{p}{digit}'
+        if int(pp) > N:
+            break
+        print()
+        queue.append(pp)
+        is_palindromes[int(pp)] = 1
+        if is_palindromes[int(pp) // 10]:
+            count += 1
