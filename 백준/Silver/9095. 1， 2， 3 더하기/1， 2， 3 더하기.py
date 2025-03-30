@@ -1,31 +1,12 @@
 import sys
 
-readline = sys.stdin.readline
+T, *test_cases = map(int, sys.stdin.read().split())
 
-t = int(readline().rstrip())
-cache = dict()
+dp = {1: 1, 2: 2, 3: 4}
 
-def dfs(acc, target):
-    cache_key = target - acc
-    if cache_key in cache:
-        return cache[cache_key]
-    
-    if acc == target:
-        cache[cache_key] = 1
-        return 1
-    if acc > target:
-        cache[cache_key] = 0
-        return 0
-    
-    cases = 0
-    for add in range(1, 4):
-        cases += dfs(acc + add, target)
-    
-    cache[cache_key] = cases
-    return cases
+def dfs(x):
+    if x not in dp:
+        dp[x] = dfs(x-1) + dfs(x-2) + dfs(x-3)
+    return dp[x]
 
-
-for _ in range(t):
-    n = int(readline().rstrip())
-    cases = dfs(0, n)
-    sys.stdout.write(f'{cases}\n')
+sys.stdout.write('\n'.join(map(str, (dfs(tc) for tc in test_cases))))   
