@@ -5,10 +5,9 @@ stars = [0] * N
 
 clear = 0
 for _ in range(D):
-    if any(a + b > K for a, b in zip(stars, S)):
+    if any(star + meteor > K for star, meteor in zip(stars, S)):
         clear += 1
-        for i in range(N):
-            stars[i] = 0
+        stars = [0] * N
     for i in range(N):
         stars[i] += S[i]
 print(clear)
