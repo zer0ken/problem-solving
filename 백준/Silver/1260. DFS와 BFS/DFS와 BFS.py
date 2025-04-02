@@ -1,41 +1,46 @@
-import sys
-from collections import deque
-
-n, m, v = map(int, sys.stdin.readline().split())
-graph = {i: [] for i in range(1, 1 + n)}
-
-for _ in range(m):
-    start, end = map(int, sys.stdin.readline().split())
-    graph[start].append(end)
-    graph[end].append(start)
-
-for k, l in graph.items():
-    graph[k] = sorted(l)
-
-def dfs(cur, visited):
-    visited.append(cur)
+def main():
+    import sys
+    from collections import deque
     
-    for next_ in graph[cur]:
-        if next_ not in visited:
-            dfs(next_, visited)
-
-def bfs(start, visited):
-    visited.append(start)
+    N, M, V = map(int, sys.stdin.readline().split())
+    adj = [set() for _ in range(N + 1)]
+    for _ in range(M):
+        a, b = map(int, sys.stdin.readline().split())
+        adj[a].add(b)
+        adj[b].add(a)
+    adj = [sorted(adj[x]) for x in range(N + 1)]
     
-    queue = deque([start])
+    visited = [0] * (N + 1)
+    dfs_results = [V]
+    
+    def dfs(cur):
+        nonlocal N, M, V, adj, visited, dfs_results
+        
+        visited[cur] = 1
+        for next in adj[cur]:
+            if not visited[next]:
+                dfs_results.append(next)
+                dfs(next)
+    
+    dfs(V)
+    
+    bfs_results = []
+    visited = [0] * (N + 1)
+    visited[V] = 1
+    queue = deque([V])
     
     while queue:
         cur = queue.popleft()
-        for next_ in graph[cur]:
-            if next_ not in visited:
-                queue.append(next_)
-                visited.append(next_)
+        bfs_results.append(cur)
+        
+        for next in adj[cur]:
+            if not visited[next]:
+                visited[next] = 1
+                queue.append(next)
+    
+    print(*dfs_results)
+    print(*bfs_results)
 
-dfs_visited = []
-dfs(v, dfs_visited)
 
-bfs_visited = []
-bfs(v, bfs_visited)
-
-sys.stdout.write(' '.join(map(str, dfs_visited)) + '\n')
-sys.stdout.write(' '.join(map(str, bfs_visited)))
+if __name__ == '__main__':
+    main()
