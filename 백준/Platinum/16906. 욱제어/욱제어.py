@@ -3,35 +3,22 @@ def main():
 
     N, *L = map(int, sys.stdin.read().split())
     
-    stack = []
-    trie = {}
     found = {l: [] for l in L}
+    check = set()
     need = sorted(L, reverse=True)
-    depth = 0
-
+    
+    last_num = -1
+    last_length = 0
+    
     while need:
-        while depth < need[-1]:
-            if '0' not in trie:
-                stack.append('0')
-                trie['0'] = {'parent': trie}
-                trie = trie['0']
-                depth += 1
-            elif '1' not in trie:
-                stack.append('1')
-                trie['1'] = {'parent': trie}
-                trie = trie['1']
-                depth += 1
-            elif 'parent' in trie:
-                stack.pop()
-                trie = trie['parent']
-                depth -= 1
-            else:
-                sys.stdout.write('-1')
-                exit(0)
-        found[need.pop()].append(''.join(stack))
-        stack.pop()
-        trie = trie['parent']
-        depth -= 1
+        last_num = (last_num + 1) << (need[-1] - last_length) 
+        b = f'{last_num:0{need[-1]}b}'
+        if b in check or len(b) > need[-1]:
+            sys.stdout.write('-1')
+            exit(0)
+        check.add(b)
+        found[need.pop()].append(b)
+        last_length = len(b)
     
     sys.stdout.write('1\n' + '\n'.join(found[l].pop() for l in L))
 
