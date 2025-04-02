@@ -5,29 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python 디버거",
+            "name": "py - file stdio",
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
                 "<",
-                "테스트/입력.txt",
+                ".debug/stdin.txt",
                 ">",
-                "테스트/출력.txt"
+                ".debug/stdout.txt"
             ]
         },
         {
-            "name": "Node.js 디버거",
+            "name": "js - file stdio",
             "type": "node",
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
             "args": [
                 "<",
-                "테스트/입력.txt",
+                ".debug/stdin.txt",
                 ">",
-                "테스트/출력.txt"
+                ".debug/stdout.txt"
             ]
         }
     ]
