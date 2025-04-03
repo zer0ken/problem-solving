@@ -1,30 +1,22 @@
 import sys
-readline = sys.stdin.readline
 
+lines = iter(sys.stdin.read().rstrip().splitlines())
 
-vertices = int(readline().rstrip())
-edges = int(readline().rstrip())
+N = int(next(lines))
+M = int(next(lines))
+adj = [[] for _ in range(N + 1)]
+for line in lines:
+    a, b = map(int, line.split())
+    adj[a].append(b)
+    adj[b].append(a)
 
-graph = dict()
-for _ in range(edges):
-    p, q = readline().split()
-    if p not in graph:
-        graph[p] = list() 
-    graph[p].append(q)
-    if q not in graph:
-        graph[q] = list()
-    graph[q].append(p)
+visited = [False]*(N + 1)
 
-def dfs(stack=['1'], visited=[]):
-    here = stack[-1]
-    visited.append(here)
-    for there in graph.get(here, []):
-        if there in visited:
-            continue
-        stack.append(there)
-        dfs(stack, visited)
-        stack.pop()
+def dfs(cur):
+    visited[cur] = True
+    for next in adj[cur]:
+        if not visited[next]:
+            dfs(next)
 
-visited = []
-dfs(['1'], visited)
-sys.stdout.write(str(len(visited) - 1))
+dfs(1)
+print(sum(visited) - 1)
