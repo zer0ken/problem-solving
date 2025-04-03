@@ -1,6 +1,8 @@
 def main():
     import sys
     
+    sys.setrecursionlimit(100000)
+    
     lines = iter(sys.stdin.read().rstrip().splitlines())
     
     Q = map(int, next(lines))
