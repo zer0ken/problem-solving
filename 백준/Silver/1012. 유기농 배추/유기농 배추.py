@@ -2,7 +2,7 @@ def main():
     import sys
 
     def bfs(row, col):
-        visited[row][col] = True
+        visited[row][col] = 1
         queue = [(row, col)]
         while queue:
             row, col = queue.pop(0)
@@ -10,7 +10,7 @@ def main():
                 nrow, ncol = row + drow, col + dcol
                 if 0 <= nrow < N and 0 <= ncol < M and \
                         not visited[nrow][ncol] and board[nrow][ncol] == 1:
-                    visited[nrow][ncol] = True
+                    visited[nrow][ncol] = 1
                     queue.append((nrow, ncol))
             
     lines = iter(sys.stdin.read().rstrip().splitlines())
@@ -23,7 +23,7 @@ def main():
             X, Y = map(int, next(lines).split())
             board[Y][X] = 1
     
-        visited = [[False] * M for _ in range(N)]
+        visited = [[0] * M for _ in range(N)]
         deltas = [[0, 1], [1, 0], [0, -1], [-1, 0]]
         count = 0
         
