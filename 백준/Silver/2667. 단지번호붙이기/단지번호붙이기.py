@@ -8,19 +8,21 @@ def main():
     visited = [[False] * N for _ in range(N)]
     count = []
     
-    def dfs(row, col, value):
-        if row < 0 or row >= N or \
-                col < 0 or col >= N or \
-                visited[row][col] or \
-                board[row][col] != value:
-            return
-        
+    def bfs(row, col, value):
         visited[row][col] = True
-        if value != '0':
-            count[-1] += 1
-            
-        for drow, dcol in deltas:
-            dfs(row + drow, col + dcol, value)
+        count[-1] += 1
+        
+        queue = [(row, col)]
+        while queue:
+            row, col = queue.pop(0)
+            for drow, dcol in deltas:
+                nrow, ncol = row + drow, col + dcol
+                if 0 <= nrow < N and 0 <= ncol < N and \
+                        not visited[nrow][ncol] and \
+                        board[nrow][ncol] == value:
+                    visited[nrow][ncol] = True
+                    count[-1] += 1                    
+                    queue.append((nrow, ncol))
 
     for row in range(N):
         for col in range(N):
@@ -28,7 +30,7 @@ def main():
             if value == '0' or visited[row][col]:
                 continue
             count.append(0)
-            dfs(row, col, board[row][col])
+            bfs(row, col, board[row][col])
     count.sort()
     
     print(len(count), *count, sep='\n')
