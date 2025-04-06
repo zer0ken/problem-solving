@@ -1,33 +1,40 @@
-import sys
-from collections import deque
-
-readline = sys.stdin.readline
-deltas = ((0, 1), (1, 0), (-1, 0), (0, -1))
-
-def count_connected(points):
-    count = 0
-    visited = []
-    for pos in points:
-        if pos in visited:
-            continue
-        count += 1
-        queue = deque([pos])
-        while queue:
-            row, col = queue.popleft()
+def main():
+    import sys
+    
+    sys.setrecursionlimit(2504)
+    
+    def dfs(row, col):
+        if 0 <= row < N and 0 <= col < M and \
+                not visited[row][col] and board[row][col] == 1:
+            visited[row][col] = True
             for drow, dcol in deltas:
-                npos = (row + drow, col + dcol)
-                if npos not in points:
+                dfs(row + drow, col + dcol)
+            
+    lines = iter(sys.stdin.read().rstrip().splitlines())
+    
+    results = []
+    for _ in range(int(next(lines))):
+        M, N, K = map(int, next(lines).split())
+        board = [[0] * M for _ in range(N)]
+        for _ in range(K):
+            X, Y = map(int, next(lines).split())
+            board[Y][X] = 1
+    
+        visited = [[False] * M for _ in range(N)]
+        deltas = [[0, 1], [1, 0], [0, -1], [-1, 0]]
+        count = 0
+        
+        for row in range(N):
+            for col in range(M):
+                if visited[row][col] or board[row][col] == 0:
                     continue
-                if npos in visited:
-                    continue    
-                visited.append(npos)
-                queue.append(npos)
-    return count
+                count += 1
+                dfs(row, col)
+        
+        results.append(count)
+    
+    print(*results, sep='\n')
 
-t = int(readline().rstrip())
-for i in range(t):
-    m, n, k = map(int, readline().split())
-    points = []
-    for j in range(k):
-        points.append(tuple(map(int, readline().split())))
-    sys.stdout.write(f'{count_connected(points)}\n')
+
+if __name__ == '__main__':
+    main()
