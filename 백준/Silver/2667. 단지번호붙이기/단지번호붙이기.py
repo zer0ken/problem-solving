@@ -24,11 +24,10 @@ def main():
 
     for row in range(N):
         for col in range(N):
-            if visited[row][col]:
-                continue
             value = board[row][col]
-            if value != '0':
-                count.append(0)
+            if value == '0' or visited[row][col]:
+                continue
+            count.append(0)
             dfs(row, col, board[row][col])
     count.sort()
     
