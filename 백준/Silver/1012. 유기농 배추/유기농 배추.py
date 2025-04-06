@@ -1,14 +1,17 @@
 def main():
     import sys
-    
-    sys.setrecursionlimit(2504)
-    
-    def dfs(row, col):
-        if 0 <= row < N and 0 <= col < M and \
-                not visited[row][col] and board[row][col] == 1:
-            visited[row][col] = True
+
+    def bfs(row, col):
+        visited[row][col] = True
+        queue = [(row, col)]
+        while queue:
+            row, col = queue.pop(0)
             for drow, dcol in deltas:
-                dfs(row + drow, col + dcol)
+                nrow, ncol = row + drow, col + dcol
+                if 0 <= nrow < N and 0 <= ncol < M and \
+                        not visited[nrow][ncol] and board[nrow][ncol] == 1:
+                    visited[nrow][ncol] = True
+                    queue.append((nrow, ncol))
             
     lines = iter(sys.stdin.read().rstrip().splitlines())
     
@@ -29,7 +32,7 @@ def main():
                 if visited[row][col] or board[row][col] == 0:
                     continue
                 count += 1
-                dfs(row, col)
+                bfs(row, col)
         
         results.append(count)
     
