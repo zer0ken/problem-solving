@@ -3,28 +3,31 @@ def main():
     
     N, *lines = sys.stdin.read().rstrip().splitlines()
     N = int(N)
-    counsels = [list(map(int, line.split())) for line in lines]
-
-    income = 0
-    max_income = 0
+    counsels = [[] for _ in range(N + 1)]
+    for i, line in enumerate(lines):
+        T, P = map(int, line.split())
+        if i + T <= N:
+            counsels[i+T].append([i, P])
     
-    def dfs(i):
-        nonlocal income, max_income
+    dp = [None] * (N + 1)
+    
+    def evaluate(end_day):
+        nonlocal dp
         
-        if i > N:
-            return
-        if i == N:
-            max_income = max(max_income, income)
-            return
+        if end_day < 0:
+            return 0
         
-        dfs(i + 1)
+        if dp[end_day] is not None:
+            return dp[end_day]
         
-        income += counsels[i][1]
-        dfs(i + counsels[i][0])
-        income -= counsels[i][1]
-
-    dfs(0)
-    print(max_income)
+        total_paid = evaluate(end_day - 1)
+        for start_day, paid in counsels[end_day]:
+            total_paid = max(total_paid, paid + evaluate(start_day))
+        
+        dp[end_day] = total_paid
+        return dp[end_day]
+    
+    print(evaluate(N))
 
 
 if __name__ == '__main__':
