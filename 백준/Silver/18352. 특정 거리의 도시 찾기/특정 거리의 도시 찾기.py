@@ -1,5 +1,6 @@
 def main():
     import sys
+    from collections import deque
 
     stdin = sys.stdin.read().rstrip().splitlines().__iter__()
     input = stdin.__next__
@@ -11,24 +12,24 @@ def main():
         A, B = map(int, line.split())
         adj[A].append(B)
         
-    found = [0] * (N + 1)
-    
-    visited = [0] * (N + 1)
-    visited[X] = 1
-    queue = [(X, 0)]
+    visited = [False] * (N + 1)
+    visited[X] = True
+    found = []
+    queue = deque([(X, 0)])
     while queue:
-        cur, dist = queue.pop(0)
+        cur, dist = queue.popleft()
         if dist == K:
-            found[cur] = 1
+            found.append(cur)
             continue
         dist += 1
         for next_ in adj[cur]:
             if not visited[next_]:
-                visited[next_] = 1
+                visited[next_] = True
                 queue.append((next_, dist))    
     
-    if any(found):
-        print(*(i for i in range(1, N + 1) if found[i]), sep='\n')
+    if found:
+        found.sort()
+        print(*found, sep='\n')
     else:
         print('-1')
 
