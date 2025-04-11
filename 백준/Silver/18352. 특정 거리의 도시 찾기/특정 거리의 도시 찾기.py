@@ -12,8 +12,8 @@ def main():
         A, B = map(int, line.split())
         adj[A].append(B)
         
-    visited = [False] * (N + 1)
-    visited[X] = True
+    visited = [0] * (N + 1)
+    visited[X] = 1
     found = []
     queue = deque([(X, 0)])
     while queue:
@@ -24,7 +24,7 @@ def main():
         dist += 1
         for next_ in adj[cur]:
             if not visited[next_]:
-                visited[next_] = True
+                visited[next_] = 1
                 queue.append((next_, dist))    
     
     if found:
