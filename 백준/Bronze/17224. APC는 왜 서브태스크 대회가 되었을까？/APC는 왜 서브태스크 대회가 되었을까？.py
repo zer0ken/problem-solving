@@ -5,20 +5,17 @@ def main():
     
     N, L, K = map(int, readline().split())
     
-    scores = {100: 0, 140: 0}
-    for i in range(N):
-        sub1, sub2 = map(int, readline().split())
-        if sub2 <= L:
-            scores[140] += 1
-            if scores[140] == K:
-                break
-        elif sub1 <= L:
-            scores[100] += 1
-
-    if scores[140] == K:
-        print(140 * K)
-    else:
-        print(140 * scores[140] + 100 * min(K - scores[140], scores[100]))
+    difficulties = [tuple(map(int, readline().split())) for _ in range(N)]
+    difficulties.sort(key=lambda x: x[1], reverse=True)
+    
+    score = 0
+    while K > 0 and difficulties:
+        sub1, sub2 = difficulties.pop()
+        if sub1 <= L:
+            score += 140 if sub2 <= L else 100
+            K -= 1
+    
+    print(score)
 
 
 if __name__ == '__main__':
