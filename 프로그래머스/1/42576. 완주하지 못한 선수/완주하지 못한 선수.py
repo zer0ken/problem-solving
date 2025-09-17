@@ -1,3 +1,3 @@
-def solution(p, c):
+def solution(participant, completion):
     from collections import Counter
-    return list(Counter(p) - Counter(c))[0]
+    return list(Counter(participant) - Counter(completion))[0]
