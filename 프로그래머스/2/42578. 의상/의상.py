@@ -1,8 +1,8 @@
 def solution(clothes):
     from collections import Counter
     
-    kinds = Counter(map(lambda x: x[1], clothes))
-    cases = 1
-    for count in kinds.values():
-        cases *= count + 1
-    return cases - 1
+    answer = 1
+    counter = Counter(map(lambda x: x[1], clothes))
+    for kind in counter:
+        answer *= counter[kind] + 1
+    return answer - 1
